@@ -8,7 +8,7 @@ class Platform():
         self.y0 = 550
         self.width = 60
         self.height = 15
-        rect(screen, (0,0,0), self.x0-self.width/2, self.y0-self.height/2, self.width, self.height,)
+        rectangle(screen, (0,0,0), self.x0-self.width/2, self.y0-self.height/2, self.width, self.height,)
         self.lives = 3
 
             
