@@ -6,7 +6,7 @@ class Platform():
         self.y0 = 570
         self.width = 60
         self.height = 15
-        self.id_body = rectangle(screen, (0,0,0), self.x0-self.width/2, self.y0-self.height/2, self.width, self.height,)
+        rectangle(screen, (0,0,0), self.x0-self.width/2, self.y0-self.height/2, self.width, self.height,)
         self.lives = 3
         
     def move_right(self, event):
