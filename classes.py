@@ -8,8 +8,16 @@ class Platform():
         self.y0 = 550
         self.width = 60
         self.height = 15
-        rect(screen, (0,0,0), self.x0-self.width/2, self.y0-self.height/2, self.width, self.height,)
+        rect(screen, (0,0,0), (self.x0-self.width/2, self.y0-self.height/2, self.width, self.height))
         self.lives = 3
+
+    def move(self, dir):
+        if dir == "left" and self.x0 >= 30:
+            self.x0 -= self.v
+        if dir == "right" and self.x0 <=570:
+            self.x0 += self.v
+
+    pass
 
 
 class Balls():
@@ -20,6 +28,17 @@ class Balls():
         self.y0=randint(350, 500)
         self.vx=randint(-5, 5)
         self.vy=randint(1, 5)
+
+    def move(self):
+        if self.x0 <= 0 or self.x0 >=600:
+            self.x0 = 599
+            self.vx = -self.vx
+        if (self.x0 >= Platform.x0 - Platform.width/2 \
+                and self.x0 <= Platform.x0 + Platform.width/2 \
+                and self.y0 <= Platform.y0):
+            self.vy = -self.vy
+        self.x0 +=self.vx
+        self.vy +=self.vy
 
         pass
 
