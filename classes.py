@@ -1,28 +1,26 @@
 #Б02-010 Артаева Рожков Садыков
-
+from random import randint
+#Имеется игровое поле 600 на 600
 class Platform():
     def __init__(self):
-        self.x0 = 400
-        self.y0 = 570
+        #Платформа создается снизу в центре экрана в виде маленького черного прямоугольника
+        self.x0 = 300
+        self.y0 = 550
         self.width = 60
         self.height = 15
         rectangle(screen, (0,0,0), self.x0-self.width/2, self.y0-self.height/2, self.width, self.height,)
         self.lives = 3
-        
-    def move_right(self, event):
-        if event.keysym == 'Right' and self.x0 <= 695:
-            self.x0 += 25
-            canvas.move(self.id, 25, 0)
-            canvas.move(self.id_body, 25, 0)
 
-    def move_left(self, event):
-        if event.keysym == 'Left' and self.x0 >= 5:
-            self.x0 -= 25
-            canvas.move(self.id, -25, 0)
-            canvas.move(self.id_body, -25, 0)
             
 class Balls():
     def __init__(self):
+        #Шары создаются в нижней половине экарана автоматически со временем (повышающаяся сложность) или после смерти старого шара (шар умирает = вылетает снизу экрана (игрок не смог его отбить))
+        #Координата появления случайная, скорость направлена случайно вверх
+        self.x0=randint(0, 600)
+        self.y0=randint(350, 500)
+        self.vx=randint(-5, 5)
+        self.vy=randint(1, 5)
+        
         pass
         
 class Targets():
