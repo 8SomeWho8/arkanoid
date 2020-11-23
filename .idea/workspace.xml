@@ -20,9 +20,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="320e8798-65fa-476b-8371-d4d0ba6b3101" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/arkanoid.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/arkanoid.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,11 +71,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="192" y="25" key="SettingsEditor" timestamp="1606122548990">
-      <screen x="0" y="25" width="1366" height="647" />
+    <state x="192" y="23" key="SettingsEditor" timestamp="1605525666849">
+      <screen x="0" y="23" width="1366" height="662" />
     </state>
     <state x="192" y="23" key="SettingsEditor/0.23.1366.662@0.23.1366.662" timestamp="1605525666849" />
-    <state x="192" y="25" key="SettingsEditor/0.25.1366.647@0.25.1366.647" timestamp="1606122548990" />
     <state x="348" y="23" width="670" height="676" key="search.everywhere.popup" timestamp="1605526248463">
       <screen x="0" y="23" width="1366" height="658" />
     </state>
