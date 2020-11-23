@@ -16,21 +16,21 @@ class GameManager():
         game_over = False
 
         platform = Platform()
-        ball_1 = Balls()
+        ball_1 = Ball()
         balls = [ball_1]
 
         while not game_over:
             clock.Tick(FPS)
             screen.fill(WHITE)
             for ball in balls:
-                ball.move(platform)
+                ball.move(platform, screen)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over = True
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        platform.move("left")
+                        platform.move("left", screen)
                     elif event.key == pygame.K_RIGHT:
-                        platform.move("right")
+                        platform.move("right", screen)
 
 
