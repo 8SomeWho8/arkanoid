@@ -1,9 +1,10 @@
 import pygame
 from pygame.draw import *
 from classes import *
+pygame.init()
 
 FPS = 60
-
+screen = pygame.display.set_mode((600, 600))
 WHITE = (255, 255, 255)
 
 class GameManager:
