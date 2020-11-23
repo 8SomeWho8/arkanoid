@@ -44,8 +44,8 @@ class Ball():
         innersquare = pygame.Rect(self.x-self.innersquareradius, self.y-self.innersquareradius, 2*self.innersquareradius, 2*self.innersquareradius)  #Создал физичный квадратик
 
     def move(self, platform):
-        x = platform.x0
-        y = platform.y0
+        x = platform.x
+        y = platform.y
         w = platform.width
         h = platform.height
         if self.x <= 0 or self.x >=600:
