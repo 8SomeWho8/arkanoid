@@ -1,6 +1,20 @@
 #Б02-010 Артаева Рожков Садыков
 from random import randint
 import numpy as np
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+GREEN = (0, 255, 0)
+MAGENTA = (255, 0, 255)
+CYAN = (0, 255, 255)
+BLACK = (0, 0, 0)
+LILAC = (182, 102, 210)
+AMBER = (255, 191, 0)
+VINOUS = (113, 25, 25)
+RED_CORAL = (255, 127, 80)
+BLUE_STEEL = (80, 127, 255)
+LIME = (204, 255, 0)
+COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, LILAC, AMBER, VINOUS, RED_CORAL, BLUE_STEEL, LIME]
 #Имеется игровое поле 600 на 600
 class Platform():
     def __init__(self):
