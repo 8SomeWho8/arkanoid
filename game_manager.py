@@ -7,21 +7,23 @@ FPS = 60
 screen = pygame.display.set_mode((600, 600))
 WHITE = (255, 255, 255)
 
-class GameManager:
+class GameManager():
     def __init__(self):
-        pass
+        global screen
 
     def main_loop(self, screen):
         clock = pygame.time.Clock()
         game_over = False
 
         platform = Platform()
-        ball = Balls()
+        ball_1 = Balls()
+        balls = [ball_1]
 
         while not game_over:
             clock.Tick(FPS)
             screen.fill(WHITE)
-            ball.move()
+            for ball in balls:
+                ball.move(platform)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over = True
