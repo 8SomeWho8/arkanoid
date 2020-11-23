@@ -19,8 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="320e8798-65fa-476b-8371-d4d0ba6b3101" name="Default Changelist" comment="">
+    <list default="true" id="320e8798-65fa-476b-8371-d4d0ba6b3101" name="Default Changelist" comment="добавила цвета">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +85,14 @@
       <option name="presentableId" value="Default" />
       <updated>1605518944723</updated>
     </task>
+    <task id="LOCAL-00001" summary="добавила цвета">
+      <created>1606125765624</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606125765624</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -97,6 +106,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="добавила цвета" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавила цвета" />
   </component>
   <component name="WindowStateProjectService">
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1606120120081">
@@ -123,10 +136,14 @@
       <screen x="0" y="23" width="1366" height="662" />
     </state>
     <state x="192" y="23" key="SettingsEditor/0.23.1366.662@0.23.1366.662" timestamp="1605525666849" />
-    <state x="397" y="264" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606123734561">
+    <state x="194" y="83" key="Vcs.Push.Dialog.v2" timestamp="1606125770579">
       <screen x="0" y="25" width="1366" height="647" />
     </state>
-    <state x="397" y="264" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1366.647@0.25.1366.647" timestamp="1606123734561" />
+    <state x="194" y="83" key="Vcs.Push.Dialog.v2/0.25.1366.647@0.25.1366.647" timestamp="1606125770579" />
+    <state x="397" y="264" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606127720799">
+      <screen x="0" y="25" width="1366" height="647" />
+    </state>
+    <state x="397" y="264" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1366.647@0.25.1366.647" timestamp="1606127720799" />
     <state x="348" y="23" width="670" height="676" key="search.everywhere.popup" timestamp="1605526248463">
       <screen x="0" y="23" width="1366" height="658" />
     </state>
