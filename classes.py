@@ -1,5 +1,6 @@
 #Б02-010 Артаева Рожков Садыков
 from random import randint
+import numpy as np
 #Имеется игровое поле 600 на 600
 class Platform():
     def __init__(self):
@@ -22,24 +23,33 @@ class Platform():
 
 
 
-class Balls():
+class Ball():
     def __init__(self):
-        #Шары создаются в нижней половине экарана автоматически со временем (повышающаяся сложность) или после смерти старого шара (шар умирает = вылетает снизу экрана (игрок не смог его отбить))
-        #Координата появления случайная, скорость направлена случайно вверх
-        self.x0=randint(0, 600)
-        self.y0=randint(350, 500)
-        self.vx=randint(-5, 5)
-        self.vy=randint(1, 5)
+        # Шары создаются в нижней половине экрана автоматически со временем (повышающаяся сложность)
+        # или после смерти старого шара (шар умирает = вылетает снизу экрана (игрок не смог его отбить))
+        # Координата появления случайная, скорость направлена вверх,
+        # но в самое первое перемещение будет заменена
+        self.x = 3 * Platform.x0//4
+        self.y = Platform.y0 + Platform.height//2
+        self.v = 50
+        self.vx = 0
+        self.vy = 50
 
     def move(self, platform):
-        if self.x0 <= 0 or self.x0 >=600:
-            self.x0 = 599
+        x = platform.x0
+        y = platform.y0
+        w = platform.width
+        h = platform.height
+        if self.x <= 0 or self.x >=600:
+            self.x = 599
             self.vx = -self.vx
-        if (platform.x0 - platform.width/2 <= self.x0 <= platform.x0 + platform.width/2
-                and self.y0 <= platform.y0):
-            self.vy = -self.vy
-        self.x0 +=self.vx
-        self.vy +=self.vy
+        if (x - w/2 <= self.x <= x + w/2
+                and self.y <= y + h//2):
+            alpha = int(self.v * np.atan(w/(2 * x) * np.tan(np.pi/9)))
+            self.vx = self.v * np.cos(alpha)
+            self.vy = self.v * np.sin(alpha)
+        self.x += self.vx
+        self.vy += self.vy
 
         pass
 
