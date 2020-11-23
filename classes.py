@@ -1,27 +1,29 @@
 #Б02-010 Артаева Рожков Садыков
-from random import randint
+from random import *
 import numpy as np
+import pygame
+from pygame.draw import *
 #Имеется игровое поле 600 на 600
-class Platform():
+class Platform:
     def __init__(self):
         #Платформа создается снизу в центре экрана в виде маленького черного прямоугольника
-        self.x0 = 300
-        self.y0 = 550
+        self.x = 300
+        self.y = 550
         self.v = 5
         self.width = 60
         self.height = 15
-        
-        rect(screen, (0,0,0), (self.x0-self.width/2, self.y0-self.height/2, self.width, self.height)) #рисование картинки платформы
-        platform = pygame.Rect(self.x0-self.width/2, self.y0-self.height/2, self.width, self.height) #физичная платформа
+        # физичная платформа
+        self.physical_obj = pygame.Rect(self.x-self.width/2, self.y-self.height/2, self.width, self.height)
         self.lives = 3
 
-    def move(self, dir):
-        if dir == "left" and self.x0 >= 30:
-            self.x0 -= self.v
-        if dir == "right" and self.x0 <= 570:
-            self.x0 += self.v
+    def move(self, direction: str, screen):
+        if direction == "left" and self.x >= 30:
+            self.x -= self.v
+        if direction == "right" and self.x <= 570:
+            self.x += self.v
+        # отрисовка картинки платформы
+        rect(screen, (0, 0, 0), (self.x - self.width / 2, self.y - self.height / 2, self.width, self.height))
 
-    pass
 
 
 
@@ -38,9 +40,9 @@ class Ball():
         self.vy = 50
         self.radius = 10 # радиус шарика
         circle(screen, (0,0,0), (self.x, self.y), self.radius) #рисую круг
-       
+
         self.innersquareradius = 7  #Внутри круга сделал квадрат поменьше, innersquareradius это длина половины стороны квадратика
-        
+
         innersquare = pygame.Rect(self.x-self.innersquareradius, self.y-self.innersquareradius, 2*self.innersquareradius, 2*self.innersquareradius)  #Создал физичный квадратик
 
     def move(self, platform):
