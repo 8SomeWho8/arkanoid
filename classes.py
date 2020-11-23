@@ -36,7 +36,7 @@ class Balls():
             self.x0 = 599
             self.vx = -self.vx
         if (platform.x0 - platform.width/2 <= self.x0 <= platform.x0 + platform.width/2
-                and self.y0 <= Platform.y0):
+                and self.y0 <= platform.y0):
             self.vy = -self.vy
         self.x0 +=self.vx
         self.vy +=self.vy
