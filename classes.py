@@ -32,12 +32,13 @@ class Platform:
         self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
         self.lives = 3
 
-    def move(self, direction: str, screen):
+    def move(self, direction: str):
         if direction == "left" and self.x >= 30:
             self.x -= self.v
         if direction == "right" and self.x <= 570:
             self.x += self.v
-        # отрисовка картинки платформы
+
+    def draw(self, screen):
         self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
         rect(screen, BLACK, self.physical_obj)
 
@@ -60,7 +61,7 @@ class Ball:
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)  # Создал физичный квадратик
 
-    def move(self, platform, screen):
+    def move(self, platform):
         x = platform.x
         y = platform.y
         w = platform.width
@@ -76,22 +77,24 @@ class Ball:
             self.vy = - self.v * np.sin(alpha)
         self.x += self.vx
         self.y += self.vy
-        circle(screen, BLACK, (self.x, self.y), self.radius)  # рисую круг
+
+    def draw(self, screen):
+        circle(screen, BLACK, (self.x, self.y), self.radius)
 
 
 class Targets:
     def __init__(self):
         self.height = 15
         self.width = 30
-        self.horizontal_number = 15
+        self.horizontal_number = 16
         self.vertical_number = 5
-
-    def create_bricks(self, screen):
-        brick_list = [pygame.Rect(6 + 36 * i, 20 + 20 * j, 30, 15) for i in range(self.horizontal_number)
+        self.brick_list = [pygame.Rect(6 + 36 * i, 20 + 20 * j, self.width, self.height) for i in range(self.horizontal_number)
                       for j in range(self.vertical_number)]  # создание физичных прямоугольников
-        color_list = [choice(COLORS) for i in range(self.horizontal_number * self.vertical_number)]  # случайный цвет
+        self.color_list = [choice(COLORS) for i in range(self.horizontal_number * self.vertical_number)]  # случайный цвет
+
+    def draw_bricks(self, screen):
         for i in range(self.horizontal_number * self.vertical_number):
-            rect(screen, color_list[i], brick_list[i])
+            rect(screen, self.color_list[i], self.brick_list[i])
 
 class Bonuses:
     def __init__(self):

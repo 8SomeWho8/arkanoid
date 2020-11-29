@@ -17,6 +17,7 @@ class GameManager:
         game_over = False
 
         platform = Platform()
+        platform.draw(screen)
         ball_1 = Ball()
         balls = [ball_1]
         targets = Targets()
@@ -25,16 +26,19 @@ class GameManager:
             clock.tick(FPS)
             screen.fill(WHITE)
             for ball in balls:
-                ball.move(platform, screen)
-            targets.create_bricks(screen)
+                ball.move(platform)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over = True
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        platform.move("left", screen)
+                        platform.move("left")
                     elif event.key == pygame.K_RIGHT:
-                        platform.move("right", screen)
+                        platform.move("right")
+            targets.draw_bricks(screen)
+            for ball in balls:
+                ball.draw(screen)
+            platform.draw(screen)
             pygame.display.update()
 
 
