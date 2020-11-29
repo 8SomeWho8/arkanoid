@@ -23,7 +23,7 @@ COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, LILAC, AMBER, VINOUS, RED_COR
 class Platform:
     def __init__(self):
         # Платформа создается снизу в центре экрана в виде маленького черного прямоугольника
-        self.x = 300
+        self.x = 100
         self.y = 550
         self.v = 5
         self.width = 60
@@ -49,11 +49,11 @@ class Ball:
         # или после смерти старого шара (шар умирает = вылетает снизу экрана (игрок не смог его отбить))
         # Координата появления случайная, скорость направлена вверх,
         # но в самое первое перемещение будет заменена
-        self.x = -10
-        self.y = -10
-        self.v = 50
-        self.vx = 0
-        self.vy = 50
+        self.x = 300
+        self.y = 500
+        self.v = 10
+        self.vx = 6
+        self.vy = -8
         self.radius = 10  # радиус шарика
 
         self.inner_square_radius = 7  # Внутри круга сделал квадрат поменьше, innersquareradius это длина половины стороны квадратика
@@ -67,19 +67,20 @@ class Ball:
         w = platform.width
         h = platform.height
         if self.x <= 0 or self.x >= 600:
-            self.x = 599  # ???
             self.vx = -self.vx
+        if self.y <= 0:
+            self.vy = -self.vy
         if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)
             # проверяет наслоение двух прямоугольников
-            alpha = int(self.v * np.atan(w/(2 * x) * np.tan(np.pi/9)))
+            alpha = int(self.v * np.arctan(w/(2 * x) * np.tan(np.pi/9)))
             self.vx = self.v * np.cos(alpha)
             self.vy = - self.v * np.sin(alpha)
         self.x += self.vx
         self.y += self.vy
 
     def draw(self, screen):
-        circle(screen, BLACK, (self.x, self.y), self.radius)
+        circle(screen, BLACK, (round(self.x), round(self.y)), self.radius)
 
 
 class Targets:
@@ -89,12 +90,13 @@ class Targets:
         self.horizontal_number = 16
         self.vertical_number = 5
         self.brick_list = [pygame.Rect(6 + 36 * i, 20 + 20 * j, self.width, self.height) for i in range(self.horizontal_number)
-                      for j in range(self.vertical_number)]  # создание физичных прямоугольников
+                           for j in range(self.vertical_number)]  # создание физичных прямоугольников
         self.color_list = [choice(COLORS) for i in range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
     def draw_bricks(self, screen):
         for i in range(self.horizontal_number * self.vertical_number):
             rect(screen, self.color_list[i], self.brick_list[i])
+
 
 class Bonuses:
     def __init__(self):
