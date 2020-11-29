@@ -38,7 +38,8 @@ class Platform:
         if direction == "right" and self.x <= 570:
             self.x += self.v
         # отрисовка картинки платформы
-        rect(screen, (0, 0, 0), self.physical_obj)
+        self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
+        rect(screen, BLACK, self.physical_obj)
 
 
 class Ball:
@@ -65,9 +66,9 @@ class Ball:
         w = platform.width
         h = platform.height
         if self.x <= 0 or self.x >= 600:
-            self.x = 599
+            self.x = 599  # ???
             self.vx = -self.vx
-        if self.inner_square.colliderect(Platform):
+        if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)
             # проверяет наслоение двух прямоугольников
             alpha = int(self.v * np.atan(w/(2 * x) * np.tan(np.pi/9)))
@@ -75,7 +76,7 @@ class Ball:
             self.vy = - self.v * np.sin(alpha)
         self.x += self.vx
         self.y += self.vy
-        circle(screen, (0, 0, 0), (self.x, self.y), self.radius)  # рисую круг
+        circle(screen, BLACK, (self.x, self.y), self.radius)  # рисую круг
 
 
 class Targets:
@@ -85,11 +86,12 @@ class Targets:
         self.horizontal_number = 15
         self.vertical_number = 5
 
-    def create_bricks(self):
+    def create_bricks(self, screen):
         brick_list = [pygame.Rect(6 + 36 * i, 20 + 20 * j, 30, 15) for i in range(self.horizontal_number)
                       for j in range(self.vertical_number)]  # создание физичных прямоугольников
         color_list = [choice(COLORS) for i in range(self.horizontal_number * self.vertical_number)]  # случайный цвет
-        
+        for i in range(self.horizontal_number * self.vertical_number):
+            rect(screen, color_list[i], brick_list[i])
 
 class Bonuses:
     def __init__(self):
