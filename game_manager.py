@@ -21,6 +21,7 @@ class GameManager:
         ball_1 = Ball()
         balls = [ball_1]
         targets = Targets()
+        k = 0
         
         while not game_over:
             clock.tick(FPS)
@@ -31,6 +32,7 @@ class GameManager:
             # метод collidelist() находит индекс кирпича с которым столкнулся мяч, или -1 если столкновения не было
             hit_index = ball_1.inner_square.collidelist(targets.brick_list) # hit_index=главный_обьект.collidelist(обьект, с которым проверяется столкновение)
             if hit_index != -1:
+                k += 1
                 hit_rect = targets.brick_list.pop(hit_index) # находим по индексу нужный кирпич и одновременно удаляем его из списка
                 detect_collision(ball_1, hit_rect) # функция для отражения мяча от кирпича
                 hit_color = targets.color_list.pop(hit_index) # аналогично с цветом кирпича

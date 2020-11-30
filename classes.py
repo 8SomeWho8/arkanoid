@@ -52,7 +52,7 @@ class Ball:
         # но в самое первое перемещение будет заменена
         self.x = 300
         self.y = 500
-        self.v = 10
+        self.v = 7
         self.vx = 6
         self.vy = -8
         self.radius = 7  # радиус шарика
@@ -87,7 +87,7 @@ class Ball:
         
 #Функция детальной проверки коллизии и отражения мяча       
 def detect_collision(obj1, obj2):
-    dx, dy = obj1.vx/abs(obj1.vx), obj1.vy/(abs(obj1.vy)) #функция находит единичный вектор скорости мяча
+    dx, dy = obj1.vx/obj1.v, obj1.vy/obj1.v #функция находит единичный вектор скорости мяча
     # Проверка перекрытия прямоугольников мяча и кирпича слева, справа, сверху и снизу кирпича соответственно в зависимости от направления скорости
     if dx > 0:
         delta_x = obj1.inner_square.right - obj2.left
@@ -115,13 +115,15 @@ class Targets:
         self.color_list = [choice(COLORS) for i in range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
     def draw_bricks(self, screen):
-        for i in range(self.horizontal_number * self.vertical_number):
+        for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
 
     def move(self):
         self.vertical_number += 1
         for i in range(self.horizontal_number):
-            self.brick_list.append(pygame.Rect(6 + 36 * i, 20 + 20 * (self.vertical_number - 1), self.width, self.height))
+            for i in range (len(self.brick_list)):
+                self.brick_list[i].move_ip(0, 20)
+            self.brick_list.insert(0, pygame.Rect(6 + 36 * i, 20 + 20 * (self.vertical_number - 1), self.width, self.height))
             self.color_list.insert(0, choice(COLORS))
 
 
