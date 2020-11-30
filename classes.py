@@ -23,7 +23,7 @@ COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, LILAC, AMBER, VINOUS, RED_COR
 class Platform:
     def __init__(self):
         # Платформа создается снизу в центре экрана в виде маленького черного прямоугольника
-        self.x = 100
+        self.x = 300
         self.y = 550
         self.v = 10
         self.width = 60
@@ -52,9 +52,9 @@ class Ball:
         # но в самое первое перемещение будет заменена
         self.x = 300
         self.y = 500
-        self.v = 7
-        self.vx = 6
-        self.vy = -8
+        self.v = 10
+        self.vx = 8
+        self.vy = -6
         self.radius = 7  # радиус шарика
 
         # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
