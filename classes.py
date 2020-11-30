@@ -25,7 +25,7 @@ class Platform:
         # Платформа создается снизу в центре экрана в виде маленького черного прямоугольника
         self.x = 100
         self.y = 550
-        self.v = 5
+        self.v = 10
         self.width = 60
         self.height = 15
         # физичная платформа
@@ -66,9 +66,7 @@ class Ball:
 
     def move(self, platform):
         x = platform.x
-        y = platform.y
         w = platform.width
-        h = platform.height
         if self.x <= 0 or self.x >= 600:
             self.vx = -self.vx
         if self.y <= 0:
@@ -76,9 +74,9 @@ class Ball:
         if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)
             # проверяет наслоение двух прямоугольников
-            alpha = np.arctan(w * np.tan(np.pi/9) / (2*self.x - 2*x))
-            self.vx = self.v * np.sin(alpha)
-            self.vy = - self.v * np.cos(alpha)
+            alpha = np.arctan(2*(self.x - x) / w * np.tan(7*np.pi/18))
+            self.vx = round(self.v * np.sin(alpha))
+            self.vy = - round(self.v * np.cos(alpha))
         self.x += self.vx
         self.y += self.vy
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
