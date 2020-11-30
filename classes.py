@@ -56,10 +56,12 @@ class Ball:
         self.vy = -8
         self.radius = 10  # радиус шарика
 
-        self.inner_square_radius = 7  # Внутри круга сделал квадрат поменьше, innersquareradius это длина половины стороны квадратика
+        # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
+        self.inner_square_radius = self.radius / 2**0.5
 
+        # Создал физичный квадратик
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
-                                        2 * self.inner_square_radius, 2 * self.inner_square_radius)  # Создал физичный квадратик
+                                        2 * self.inner_square_radius, 2 * self.inner_square_radius)
 
     def move(self, platform):
         x = platform.x
