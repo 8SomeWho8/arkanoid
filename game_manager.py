@@ -50,6 +50,8 @@ class GameManager:
             for ball in balls:
                 ball.draw(screen)
             platform.draw(screen)
+            score = pygame.font.SysFont('arial', 15).render('Score:'+str(k), True, RED_CORAL)
+            screen.blit(score, (500, 500))
             pygame.display.update()
 
 
