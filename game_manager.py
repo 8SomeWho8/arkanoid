@@ -3,7 +3,7 @@ from pygame.draw import *
 from classes import *
 pygame.init()
 
-FPS = 60
+FPS = 20
 screen = pygame.display.set_mode((600, 600))
 WHITE = (255, 255, 255)
 
@@ -30,11 +30,17 @@ class GameManager:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over = True
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        platform.move("left")
-                    elif event.key == pygame.K_RIGHT:
-                        platform.move("right")
+                    pygame.quit()
+                #elif event.type == pygame.KEYDOWN:
+                 #   if event.key == pygame.K_LEFT:
+                    #    platform.move("left")
+                  #  elif event.key == pygame.K_RIGHT:
+                     #   platform.move("right")
+            key = pygame.key.get_pressed()
+            if key[pygame.K_LEFT]:
+                platform.move("left")
+            if key[pygame.K_RIGHT]:
+                platform.move("right")
             targets.draw_bricks(screen)
             for ball in balls:
                 ball.draw(screen)
