@@ -84,7 +84,25 @@ class Ball:
 
     def draw(self, screen):
         circle(screen, BLACK, (round(self.x), round(self.y)), self.radius)
+        
+#Функция детальной проверки коллизии и отражения мяча       
+def detect_collision(obj1, obj2):
+    dx, dy = obj1.vx/abs(obj1.vx), obj1.vy/(abs(obj1.vy)) #функция находит единичный вектор скорости мяча
+    # Проверка перекрытия прямоугольников мяча и кирпича слева, справа, сверху и снизу кирпича соответственно в зависимости от направления скорости
+    if dx > 0:
+        delta_x = obj1.inner_square.right - obj2.left
+    else:
+        delta_x = obj2.right - obj1.inner_square.left
+    if dy > 0:
+        delta_y = obj1.inner_square.bottom - obj2.top
+    else:
+        delta_y = obj2.bottom - obj1.inner_square.top
 
+    # Отражение скоростей
+    if delta_x > delta_y:
+        obj1.vy *= -1
+    elif delta_y > delta_x:
+        obj1.vx *= -1
 
 class Targets:
     def __init__(self):
