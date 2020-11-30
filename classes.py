@@ -107,10 +107,6 @@ class Targets:
             self.color_list.insert(0, choice(COLORS))
 
 
-class Bonuses:
-    def __init__(self):
-        pass
-
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
