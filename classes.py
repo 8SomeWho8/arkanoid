@@ -76,10 +76,9 @@ class Ball:
         if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)
             # проверяет наслоение двух прямоугольников
-            alpha = int(self.v * np.arctan(w/(2 * x) * np.tan(np.pi/9)))
-            self.vx = self.v * np.cos(alpha)
-            self.vy = - self.v * np.sin(alpha)
-            print("collide!!!!!")
+            alpha = np.arctan(w * np.tan(np.pi/9) / (2*self.x - 2*x))
+            self.vx = self.v * np.sin(alpha)
+            self.vy = - self.v * np.cos(alpha)
         self.x += self.vx
         self.y += self.vy
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
