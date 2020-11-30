@@ -29,7 +29,7 @@ class Platform:
         self.width = 60
         self.height = 15
         # физичная платформа
-        self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
+        self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
         self.lives = 3
 
     def move(self, direction: str):
@@ -37,9 +37,10 @@ class Platform:
             self.x -= self.v
         if direction == "right" and self.x <= 570:
             self.x += self.v
+        self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
 
     def draw(self, screen):
-        self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
+        self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
         rect(screen, BLACK, self.physical_obj)
 
 
@@ -54,7 +55,7 @@ class Ball:
         self.v = 10
         self.vx = 6
         self.vy = -8
-        self.radius = 10  # радиус шарика
+        self.radius = 7  # радиус шарика
 
         # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
         self.inner_square_radius = self.radius / 2**0.5
@@ -78,8 +79,11 @@ class Ball:
             alpha = int(self.v * np.arctan(w/(2 * x) * np.tan(np.pi/9)))
             self.vx = self.v * np.cos(alpha)
             self.vy = - self.v * np.sin(alpha)
+            print("collide!!!!!")
         self.x += self.vx
         self.y += self.vy
+        self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
+                                        2 * self.inner_square_radius, 2 * self.inner_square_radius)
 
     def draw(self, screen):
         circle(screen, BLACK, (round(self.x), round(self.y)), self.radius)
