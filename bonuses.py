@@ -33,7 +33,7 @@ class SpeedBonus(Bonus):
     def collision_with_platform(self, platform: Platform):
         collided = Bonus.collision_with_platform(self, platform)
         if collided:
-            platform.vx += self.additional_speed
+            platform.v += self.additional_speed
 
 
 if __name__ == "__main__":
