@@ -100,6 +100,12 @@ class Targets:
         for i in range(self.horizontal_number * self.vertical_number):
             rect(screen, self.color_list[i], self.brick_list[i])
 
+    def move(self):
+        self.vertical_number += 1
+        for i in range(self.horizontal_number):
+            self.brick_list.append(pygame.Rect(6 + 36 * i, 20 + 20 * (self.vertical_number - 1), self.width, self.height))
+            self.color_list.insert(0, choice(COLORS))
+
 
 class Bonuses:
     def __init__(self):
