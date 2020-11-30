@@ -34,7 +34,6 @@ class GameManager:
             if hit_index != -1:
                 k += 1
                 hit_rect = targets.brick_list.pop(hit_index) # находим по индексу нужный кирпич и одновременно удаляем его из списка
-                detect_collision(ball_1, hit_rect) # функция для отражения мяча от кирпича
                 hit_color = targets.color_list.pop(hit_index) # аналогично с цветом кирпича
                 detect_collision(ball_1, hit_rect) # функция для отражения мяча от кирпича
             for event in pygame.event.get():
