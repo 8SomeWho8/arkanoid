@@ -1,4 +1,4 @@
-from classes import *
+from platfrom_ball_targets import *
 import pygame
 
 
@@ -15,7 +15,7 @@ class Bonus:
         self.timer = 600
 
     def move(self):
-        self.y -= self.vy
+        self.y += self.vy
         self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2,
                                         self.width, self.height)
 
@@ -47,6 +47,7 @@ class WidthBonus(Bonus):
         if collided:
             platform.width *= self.width_multiplier
 
+
 class SlowDownBonus(Bonus):
     def __init__(self, x, y):
         Bonus.__init__(self, x, y)
@@ -59,6 +60,7 @@ class SlowDownBonus(Bonus):
                 ball.v /= self.slow_multiplier
                 ball.vx /= self.slow_multiplier
                 ball.vy /= self.slow_multiplier
+
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
