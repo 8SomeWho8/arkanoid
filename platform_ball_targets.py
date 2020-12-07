@@ -30,7 +30,7 @@ class Platform:
         self.height = 20
         # физичная платформа
         self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
-        self.lives = 3
+        self.lives = 0
 
     def move(self, direction: str):
         if direction == "left" and self.x > 40:
@@ -58,7 +58,7 @@ class Ball:
 
         self.on_platform = True
         # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
-        self.inner_square_radius = 2 * self.radius / 2 ** 0.5
+        self.inner_square_radius = self.radius / 2 ** 0.5
         # Создал физичный квадратик
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
@@ -133,8 +133,8 @@ class Targets:
     def move(self):
         self.vertical_number += 1
         for i in range(self.horizontal_number):
-            for i in range(len(self.brick_list)):
-                self.brick_list[i].move_ip(0, 20)
+            for j in range(len(self.brick_list)):
+                self.brick_list[j].move_ip(0, 20)
             self.brick_list.insert(0, pygame.Rect(8 + 48 * i, 27 + 27 * (self.vertical_number - 1),
                                                   self.width, self.height))
             self.color_list.insert(0, choice(COLORS))

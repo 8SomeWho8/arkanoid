@@ -15,20 +15,20 @@ class GameManager:
     def main_loop(self, screen):
         clock = pygame.time.Clock()
         game_over = False
+        game_exit = False
         platform = Platform()
         platform.draw(screen)
         ball_1 = Ball()
         balls = [ball_1]
         targets = Targets()
-        k = 0
+        score = 0
         targets.gift_bricks()
-        surf = pygame.image.load("fon.jpg")
-        surf = pygame.transform.scale(surf, [800, 800])
+        background = pygame.image.load("fon.jpg")
+        background = pygame.transform.scale(background, [800, 800])
 
         while not game_over:
             clock.tick(FPS)
-            screen.fill(WHITE)
-            screen.blit(surf, (0, 0))
+            screen.blit(background, (0, 0))
 
             # метод collidelist() находит индекс кирпича с которым столкнулся мяч, или -1 если столкновения не было
             hit_index = ball_1.inner_square.collidelist(
@@ -40,7 +40,7 @@ class GameManager:
                         trigger_bonus(ball_1.x,
                                       ball_1.y)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
 
-                k += 1
+                score += 1
                 hit_rect = targets.brick_list.pop(
                     hit_index)  # находим по индексу нужный кирпич и одновременно удаляем его из списка
                 detect_collision(ball_1, hit_rect)  # функция для отражения мяча от кирпича
@@ -60,22 +60,56 @@ class GameManager:
                                 ball.on_platform = False
 
             key = pygame.key.get_pressed()
+
             if key[pygame.K_LEFT]:
                 platform.move("left")
             if key[pygame.K_RIGHT]:
                 platform.move("right")
+
             for ball in balls:
                 if ball.on_platform:
                     ball.move_on_platform(platform, -0.25)
                 else:
                     ball.move_freely(platform)
+                if platform.lives > 0 and ball.y > 800 + ball.radius and len(balls) == 1:
+                    platform.lives -= 1
+                    ball.on_platform = True
+                elif ball.y > 800 + ball.radius and len(balls) > 1:
+                    balls.remove(ball)
+                elif platform.lives == 0 and ball.y > 800 + ball.radius and len(balls) == 1:
+                    game_over = True
+
             targets.draw_bricks(screen)
+
             for ball in balls:
                 ball.draw(screen)
+
             platform.draw(screen)
-            score = pygame.font.SysFont('arial', 30).render('Score:' + str(k), True, BLACK)
-            screen.blit(score, (650, 20))
+
+            score_text = pygame.font.SysFont('arial', 30).render('Score:' + str(score), True, BLACK)
+            screen.blit(score_text, (650, 20))
+
+            lives_left_text = pygame.font.SysFont('arial', 30).render('Lives left:' + str(platform.lives), True, BLACK)
+            screen.blit(lives_left_text, (50, 20))
+
+            #if platform.lives == 0:
+
+
             pygame.display.update()
+
+        while not game_exit:
+            game_over_background = pygame.image.load('game_over.jpg')
+            game_over_background = pygame.transform.scale(game_over_background, [800, 800])
+            screen.blit(game_over_background, (0, 0))
+            game_over_text = pygame.font.SysFont('arial', 50).render('GAME OVER!', True, LILAC)
+            screen.blit(game_over_text, (200, 400))
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_exit = True
+                    pygame.quit()
+
+
 
 
 gm = GameManager()
