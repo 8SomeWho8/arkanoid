@@ -22,7 +22,7 @@ class GameManager:
         balls = [ball_1]
         targets = Targets()
         k = 0
-        surf = pygame.image.load("gold.jpg")
+        surf = pygame.image.load("fon.jpg")
         surf = pygame.transform.scale(surf, [800, 800])
         
         while not game_over:
