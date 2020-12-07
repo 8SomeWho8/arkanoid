@@ -1,10 +1,10 @@
 import pygame
 from pygame.draw import *
-from classes import *
+from platform_ball_targets import *
 pygame.init()
 
 FPS = 60
-screen = pygame.display.set_mode((600, 600))
+screen = pygame.display.set_mode((600,600))
 WHITE = (255, 255, 255)
 
 
@@ -22,12 +22,15 @@ class GameManager:
         balls = [ball_1]
         targets = Targets()
         k = 0
+        surf = pygame.image.load("gold.jpg")
+        surf = pygame.transform.scale(surf, [600, 600])
         
         while not game_over:
             clock.tick(FPS)
             screen.fill(WHITE)
+            screen.blit(surf, (0, 0))
             for ball in balls:
-                ball.move(platform)
+                ball.move_freely(platform)
             
             # метод collidelist() находит индекс кирпича с которым столкнулся мяч, или -1 если столкновения не было
             hit_index = ball_1.inner_square.collidelist(targets.brick_list) # hit_index=главный_обьект.collidelist(обьект, с которым проверяется столкновение)

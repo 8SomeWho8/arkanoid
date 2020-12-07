@@ -1,4 +1,4 @@
-from platfrom_ball_targets import *
+from platform_ball_targets import *
 import pygame
 
 
