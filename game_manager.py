@@ -4,7 +4,7 @@ from platform_ball_targets import *
 pygame.init()
 
 FPS = 60
-screen = pygame.display.set_mode((600,600))
+screen = pygame.display.set_mode((800, 800))
 WHITE = (255, 255, 255)
 
 
@@ -23,7 +23,7 @@ class GameManager:
         targets = Targets()
         k = 0
         surf = pygame.image.load("gold.jpg")
-        surf = pygame.transform.scale(surf, [600, 600])
+        surf = pygame.transform.scale(surf, [800, 800])
         
         while not game_over:
             clock.tick(FPS)
@@ -53,8 +53,8 @@ class GameManager:
             for ball in balls:
                 ball.draw(screen)
             platform.draw(screen)
-            score = pygame.font.SysFont('arial', 15).render('Score:'+str(k), True, RED_CORAL)
-            screen.blit(score, (500, 500))
+            score = pygame.font.SysFont('arial', 20).render('Score:'+str(k), True, RED_CORAL)
+            screen.blit(score, (700, 700))
             pygame.display.update()
 
 

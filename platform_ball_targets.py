@@ -23,19 +23,19 @@ COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, LILAC, AMBER, VINOUS, RED_COR
 class Platform:
     def __init__(self):
         # Платформа создается снизу в центре экрана в виде маленького черного прямоугольника
-        self.x = 300
-        self.y = 550
+        self.x = 400
+        self.y = 730
         self.v = 10
-        self.width = 60
-        self.height = 15
+        self.width = 80
+        self.height = 20
         # физичная платформа
         self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
         self.lives = 3
 
     def move(self, direction: str):
-        if direction == "left" and self.x > 30:
+        if direction == "left" and self.x > 40:
             self.x -= self.v
-        if direction == "right" and self.x < 570:
+        if direction == "right" and self.x < 760:
             self.x += self.v
         self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
 
@@ -49,12 +49,12 @@ class Ball:
         # или после смерти старого шара (шар умирает = вылетает снизу экрана (игрок не смог его отбить))
         # Координата появления случайная, скорость направлена вверх,
         # но в самое первое перемещение будет заменена
-        self.x = 400
-        self.y = 500
+        self.x = 530
+        self.y = 666
         self.v = 10
         self.vx = 0
         self.vy = -10
-        self.radius = 7  # радиус шарика
+        self.radius = 9  # радиус шарика
 
         self.on_platform = True
 
@@ -68,7 +68,7 @@ class Ball:
     def move_freely(self, platform):
         x = platform.x
         w = platform.width
-        if self.x <= 0 or self.x >= 600:
+        if self.x <= 0 or self.x >= 800:
             self.vx = -self.vx
         if self.y <= 0:
             self.vy = -self.vy
@@ -116,11 +116,11 @@ def detect_collision(obj1, obj2):
 
 class Targets:
     def __init__(self):
-        self.height = 15
-        self.width = 30
+        self.height = 20
+        self.width = 40
         self.horizontal_number = 16
         self.vertical_number = 5
-        self.brick_list = [pygame.Rect(6 + 36 * i, 20 + 20 * j, self.width, self.height) for i in range(self.horizontal_number)
+        self.brick_list = [pygame.Rect(8 + 48 * i, 27 + 27 * j, self.width, self.height) for i in range(self.horizontal_number)
                            for j in range(self.vertical_number)]  # создание физичных прямоугольников
         self.color_list = [choice(COLORS) for i in range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
@@ -133,7 +133,7 @@ class Targets:
         for i in range(self.horizontal_number):
             for i in range(len(self.brick_list)):
                 self.brick_list[i].move_ip(0, 20)
-            self.brick_list.insert(0, pygame.Rect(6 + 36 * i, 20 + 20 * (self.vertical_number - 1),
+            self.brick_list.insert(0, pygame.Rect(8 + 48 * i, 27 + 27 * (self.vertical_number - 1),
                                                   self.width, self.height))
             self.color_list.insert(0, choice(COLORS))
 
