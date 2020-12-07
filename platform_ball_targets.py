@@ -17,7 +17,7 @@ VINOUS = (113, 25, 25)
 RED_CORAL = (255, 127, 80)
 BLUE_STEEL = (80, 127, 255)
 LIME = (204, 255, 0)
-COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, LILAC, AMBER, VINOUS, RED_CORAL, BLUE_STEEL, LIME]
+COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, LILAC, AMBER, RED_CORAL, BLUE_STEEL, LIME]
 
 
 class Platform:
@@ -66,9 +66,9 @@ class Ball:
     def move_freely(self, platform):
         x = platform.x
         w = platform.width
-        if self.x <= 0 or self.x >= 800:
+        if self.x <= 0 or self.x > 800:
             self.vx = -self.vx
-        if self.y <= 0:
+        if self.y < 50:
             self.vy = -self.vy
         if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)
@@ -113,11 +113,11 @@ def detect_collision(obj1, obj2):
 
 class Targets:
     def __init__(self):
-        self.height = 20
-        self.width = 40
-        self.horizontal_number = 16
-        self.vertical_number = 5
-        self.brick_list = [pygame.Rect(8 + 48 * i, 27 + 27 * j, self.width, self.height) for i in
+        self.height = 26
+        self.width = 66
+        self.horizontal_number = 11
+        self.vertical_number = 4
+        self.brick_list = [pygame.Rect(8 + 72 * i, 87 + 33 * j, self.width, self.height) for i in
                            range(self.horizontal_number)
                            for j in range(self.vertical_number)]  # создание физичных прямоугольников
         self.color_list = [choice(COLORS) for i in

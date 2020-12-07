@@ -53,10 +53,11 @@ class GameManager:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         for ball in balls:
-                            ball.on_platform = False
-                            alpha = np.arctan(2 * (ball.x - platform.x) / platform.width * np.tan(7 * np.pi / 18))
-                            ball.vx = round(ball.v * np.sin(alpha))
-                            ball.vy = - round(ball.v * np.cos(alpha))
+                            if ball.on_platform:
+                                alpha = np.arctan(2 * (ball.x - platform.x) / platform.width * np.tan(7 * np.pi / 18))
+                                ball.vx = round(ball.v * np.sin(alpha))
+                                ball.vy = - round(ball.v * np.cos(alpha))
+                                ball.on_platform = False
 
             key = pygame.key.get_pressed()
             if key[pygame.K_LEFT]:
@@ -65,15 +66,15 @@ class GameManager:
                 platform.move("right")
             for ball in balls:
                 if ball.on_platform:
-                    ball.move_on_platform(platform, -0.5)
+                    ball.move_on_platform(platform, -0.25)
                 else:
                     ball.move_freely(platform)
             targets.draw_bricks(screen)
             for ball in balls:
                 ball.draw(screen)
             platform.draw(screen)
-            score = pygame.font.SysFont('arial', 20).render('Score:' + str(k), True, RED_CORAL)
-            screen.blit(score, (700, 700))
+            score = pygame.font.SysFont('arial', 30).render('Score:' + str(k), True, BLACK)
+            screen.blit(score, (650, 20))
             pygame.display.update()
 
 
