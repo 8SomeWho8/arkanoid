@@ -22,12 +22,10 @@ class GameManager:
         balls = [ball_1]
         targets = Targets()
         k = 0
-        surf = pygame.image.load("gold.jpg")
-        screen.blit (surf, (100, 200))
+        
         while not game_over:
             clock.tick(FPS)
             screen.fill(WHITE)
-            screen.blit(surf, (0, 0))
             for ball in balls:
                 ball.move(platform)
             
@@ -52,7 +50,7 @@ class GameManager:
             for ball in balls:
                 ball.draw(screen)
             platform.draw(screen)
-            score = pygame.font.Font('/System/Library/Fonts/Supplemental/Arial Unicode.ttf', 15).render('Score:'+str(k), True, RED_CORAL)
+            score = pygame.font.SysFont('arial', 15).render('Score:'+str(k), True, RED_CORAL)
             screen.blit(score, (500, 500))
             pygame.display.update()
 
