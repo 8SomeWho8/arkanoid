@@ -116,30 +116,40 @@ def detect_collision(obj1, obj2):
 
 class Targets:
     def __init__(self):
-        self.height = 20
-        self.width = 40
+    
+        self.height = 15
+        self.width = 30
         self.horizontal_number = 16
         self.vertical_number = 5
-        self.brick_list = [pygame.Rect(8 + 48 * i, 27 + 27 * j, self.width, self.height) for i in range(self.horizontal_number)
+        self.brick_list = [pygame.Rect(6 + 36 * i, 20 + 20 * j, self.width, self.height) for i in range(self.horizontal_number)
                            for j in range(self.vertical_number)]  # создание физичных прямоугольников
         self.color_list = [choice(COLORS) for i in range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
     def draw_bricks(self, screen):
-        surf1 = pygame.image.load("image003.png")
-        surf1 = pygame.transform.scale(surf1, (self.width, self.height))
         for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
-            screen.blit(surf1, self.brick_list[i])
 
     def move(self):
         self.vertical_number += 1
         for i in range(self.horizontal_number):
             for i in range(len(self.brick_list)):
                 self.brick_list[i].move_ip(0, 20)
-            self.brick_list.insert(0, pygame.Rect(8 + 48 * i, 27 + 27 * (self.vertical_number - 1),
+            self.brick_list.insert(0, pygame.Rect(6 + 36 * i, 20 + 20 * (self.vertical_number - 1),
                                                   self.width, self.height))
             self.color_list.insert(0, choice(COLORS))
-
+    
+    def gift_bricks(self):
+        self.gifted_bricks_list = []
+        for i in range (len(self.brick_list)):
+            a = randint(1, 10)
+            if a == 10:
+                self.gifted_bricks_list.append(i)
+                
+                
+            
+def trigger_bonus (x, y):
+    pass
+        
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
