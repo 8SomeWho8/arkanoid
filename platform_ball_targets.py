@@ -44,14 +44,14 @@ class Ball:
         # но в самое первое перемещение будет заменена
         self.x = 530
         self.y = 666
-        self.v = 10
         self.vx = 0
         self.vy = -10
+        self.v = (self.vx ** 2 + self.vy ** 2) ** 0.5
         self.radius = 9  # радиус шарика
 
-        self.on_platform = True
+        self.on_platform = False
         # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
-        self.inner_square_radius = self.radius / 2**0.5
+        self.inner_square_radius =  2 * self.radius / 2**0.5
         # Создал физичный квадратик
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
@@ -120,5 +120,22 @@ class Targets:
             self.brick_list.insert(0, pygame.Rect(8 + 48 * i, 27 + 27 * (self.vertical_number - 1),
                                                   self.width, self.height))
             self.color_list.insert(0, choice(COLORS))
+            
+    def gift_bricks(self):
+        self.gifted_bricks_list = []
+        for i in range (len(self.brick_list)):
+            a = randint(1, 10)
+            if a == 10:
+                self.gifted_bricks_list.append(i)
+                
+                
+            
+def trigger_bonus (x, y):
+    pass
+               
+            
+            
+            
 if __name__ == "__main__":
     print("This module is not for direct call!")
+
