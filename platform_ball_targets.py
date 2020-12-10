@@ -30,7 +30,7 @@ class Platform:
         self.height = 20
         # физичная платформа
         self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
-        self.lives = 0
+        self.lives = 3
 
     def move(self, direction: str):
         if direction == "left" and self.x > 40:
@@ -56,7 +56,7 @@ class Ball:
         self.v = (self.vx ** 2 + self.vy ** 2) ** 0.5
         self.radius = 9  # радиус шарика
 
-        self.on_platform = True
+        self.on_platform = False
         # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
         self.inner_square_radius = self.radius / 2 ** 0.5
         # Создал физичный квадратик
@@ -66,9 +66,9 @@ class Ball:
     def move_freely(self, platform):
         x = platform.x
         w = platform.width
-        if self.x <= 0 or self.x > 800:
+        if self.x + self.vx < 0 or self.x + self.vx > 800:
             self.vx = -self.vx
-        if self.y < 50:
+        if self.y + self.vy < 50:
             self.vy = -self.vy
         if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)

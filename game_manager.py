@@ -41,11 +41,9 @@ class GameManager:
                                       ball_1.y)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
 
                 score += 1
-                hit_rect = targets.brick_list.pop(
-                    hit_index)  # находим по индексу нужный кирпич и одновременно удаляем его из списка
+                hit_rect = targets.brick_list.pop(hit_index)  # находим по индексу нужный кирпич и одновременно удаляем его из списка
                 detect_collision(ball_1, hit_rect)  # функция для отражения мяча от кирпича
                 hit_color = targets.color_list.pop(hit_index)  # аналогично с цветом кирпича
-                detect_collision(ball_1, hit_rect)  # функция для отражения мяча от кирпича
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over = True
