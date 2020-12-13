@@ -24,7 +24,7 @@ class Platform:
     def __init__(self):
         # Платформа создается снизу в центре экрана в виде маленького черного прямоугольника
         self.x = 400
-        self.y = 730
+        self.y = 630
         self.v = 10
         self.width = 80
         self.height = 20
@@ -40,7 +40,10 @@ class Platform:
         self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
 
     def draw(self, screen):
+        platformimage = pygame.image.load("platform.png")
+        platformimage = pygame.transform.scale(platformimage, [80, 20])
         rect(screen, BLACK, self.physical_obj)
+        screen.blit(platformimage, (self.x - self.width // 2, self.y - self.height // 2))
 
 
 class Ball:
@@ -88,7 +91,9 @@ class Ball:
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
 
     def draw(self, screen):
-        circle(screen, BLACK, (round(self.x), round(self.y)), self.radius)
+        ballimage = pygame.image.load("ball.png")
+        ballimage = pygame.transform.scale(ballimage, [18, 18])
+        screen.blit(ballimage, (self.x - self.inner_square_radius, self.y - self.inner_square_radius))
 
 
 # Функция детальной проверки коллизии и отражения мяча

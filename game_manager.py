@@ -4,7 +4,7 @@ from platform_ball_targets import *
 
 pygame.init()
 FPS = 60
-screen = pygame.display.set_mode((800, 800))
+screen = pygame.display.set_mode((800, 700))
 WHITE = (255, 255, 255)
 
 
@@ -23,8 +23,8 @@ class GameManager:
         targets = Targets()
         score = 0
         targets.gift_bricks()
-        background = pygame.image.load("fon.jpg")
-        background = pygame.transform.scale(background, [800, 800])
+        background = pygame.image.load("desert.png")
+        background = pygame.transform.scale(background, [800, 700])
 
         while not game_over:
             clock.tick(FPS)
@@ -69,12 +69,12 @@ class GameManager:
                     ball.move_on_platform(platform, -0.25)
                 else:
                     ball.move_freely(platform)
-                if platform.lives > 0 and ball.y > 800 + ball.radius and len(balls) == 1:
+                if platform.lives > 1 and ball.y > 800 + ball.radius and len(balls) == 1:
                     platform.lives -= 1
                     ball.on_platform = True
                 elif ball.y > 800 + ball.radius and len(balls) > 1:
                     balls.remove(ball)
-                elif platform.lives == 0 and ball.y > 800 + ball.radius and len(balls) == 1:
+                elif platform.lives == 1 and ball.y > 800 + ball.radius and len(balls) == 1:
                     game_over = True
 
             targets.draw_bricks(screen)
@@ -83,12 +83,14 @@ class GameManager:
                 ball.draw(screen)
 
             platform.draw(screen)
+            heartimage = pygame.image.load("heart.png")
+            heartimage = pygame.transform.scale(heartimage, [30, 30])
+            for i in range (0, platform.lives):
+                screen.blit(heartimage, (50 + 40*i, 20))
 
             score_text = pygame.font.SysFont('arial', 30).render('Score:' + str(score), True, BLACK)
             screen.blit(score_text, (650, 20))
 
-            lives_left_text = pygame.font.SysFont('arial', 30).render('Lives left:' + str(platform.lives), True, BLACK)
-            screen.blit(lives_left_text, (50, 20))
 
             #if platform.lives == 0:
 
@@ -96,11 +98,9 @@ class GameManager:
             pygame.display.update()
 
         while not game_exit:
-            game_over_background = pygame.image.load('game_over.jpg')
-            game_over_background = pygame.transform.scale(game_over_background, [800, 800])
+            game_over_background = pygame.image.load('game_over.png')
+            game_over_background = pygame.transform.scale(game_over_background, [800, 700])
             screen.blit(game_over_background, (0, 0))
-            game_over_text = pygame.font.SysFont('arial', 50).render('GAME OVER!', True, LILAC)
-            screen.blit(game_over_text, (200, 400))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
