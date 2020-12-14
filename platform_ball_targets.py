@@ -157,7 +157,14 @@ def trigger_bonus(x, y):
 
 class Menu:
     def __init__(self):
-        self.buttons = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
+        self.button = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
+        self.click = [False, False, False]
+
+    def action(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for i in range(3):
+                if self.button[i].collidepoint(pygame.mouse.get_pos()):
+                    self.click[i] = True
 
     def draw_start_menu(self, screen):
         frame = pygame.image.load("frame.png")
@@ -192,8 +199,10 @@ class Menu:
         exit_button = pygame.image.load("exit.png")
         restart_button.blit(frame, (0, 0))
         exit_button.blit(frame, (0, 0))
+        rect(screen, RED_CORAL, (250, 100, 300, 80))
         screen.blit(restart_button, (250, 200))
         screen.blit(exit_button, (250, 300))
+
 
 
 
