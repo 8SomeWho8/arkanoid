@@ -91,9 +91,7 @@ class GameManager:
             score_text = pygame.font.SysFont('arial', 30).render('Score:' + str(score), True, BLACK)
             screen.blit(score_text, (650, 20))
 
-
             #if platform.lives == 0:
-
 
             pygame.display.update()
 

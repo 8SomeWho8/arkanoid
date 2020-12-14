@@ -155,6 +155,14 @@ class Targets:
 def trigger_bonus(x, y):
     pass
 
+class Menu:
+    def __init__(self):
+        self.buttons = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
+
+    def draw_menu(self, screen):
+        pygame.image.load("start.png")
+
+
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
