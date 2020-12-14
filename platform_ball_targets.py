@@ -129,7 +129,7 @@ class Targets:
                            range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
     def draw_bricks(self, screen):
-        surf1 = pygame.image.load("image003.png")
+        surf1 = pygame.image.load("frame.png")
         surf1 = pygame.transform.scale(surf1, (self.width, self.height))
         for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
@@ -159,8 +159,41 @@ class Menu:
     def __init__(self):
         self.buttons = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
 
-    def draw_menu(self, screen):
-        pygame.image.load("start.png")
+    def draw_start_menu(self, screen):
+        frame = pygame.image.load("frame.png")
+        frame = pygame.transform.scale(frame, (300, 80))
+        arcade_button = pygame.image.load("arcade.png")
+        endless_button = pygame.image.load("endless.png")
+        exit_button = pygame.image.load("exit.png")
+        arcade_button.blit(frame, (0, 0))
+        endless_button.blit(frame, (0, 0))
+        exit_button.blit(frame, (0, 0))
+        screen.blit(arcade_button, (250, 100))
+        screen.blit(endless_button, (250, 200))
+        screen.blit(exit_button, (250, 300))
+
+    def draw_pause_menu(self, screen):
+        frame = pygame.image.load("frame.png")
+        frame = pygame.transform.scale(frame, (300, 80))
+        continue_button = pygame.image.load("continue.png")
+        restart_button = pygame.image.load("restart.png")
+        exit_button = pygame.image.load("exit.png")
+        continue_button.blit(frame, (0, 0))
+        restart_button.blit(frame, (0, 0))
+        exit_button.blit(frame, (0, 0))
+        screen.blit(continue_button, (250, 100))
+        screen.blit(restart_button, (250, 200))
+        screen.blit(exit_button, (250, 300))
+
+    def draw_end_menu(self, screen):
+        frame = pygame.image.load("frame.png")
+        frame = pygame.transform.scale(frame, (300, 80))
+        restart_button = pygame.image.load("restart.png")
+        exit_button = pygame.image.load("exit.png")
+        restart_button.blit(frame, (0, 0))
+        exit_button.blit(frame, (0, 0))
+        screen.blit(restart_button, (250, 200))
+        screen.blit(exit_button, (250, 300))
 
 
 
