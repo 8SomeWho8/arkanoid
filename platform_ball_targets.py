@@ -152,8 +152,7 @@ class Targets:
                 self.gifted_bricks_list.append(i)
 
 
-def trigger_bonus(x, y):
-    pass
+
 
 class Menu:
     def __init__(self):
