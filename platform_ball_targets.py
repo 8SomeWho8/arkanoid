@@ -129,7 +129,7 @@ class Targets:
                            range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
     def draw_bricks(self, screen):
-        surf1 = pygame.image.load("image003.png")
+        surf1 = pygame.image.load("frame.png")
         surf1 = pygame.transform.scale(surf1, (self.width, self.height))
         for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
