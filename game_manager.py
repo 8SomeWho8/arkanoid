@@ -1,6 +1,7 @@
 import pygame
 from pygame.draw import *
 from platform_ball_targets import *
+from bonuses import *
 
 pygame.init()
 FPS = 60
@@ -20,6 +21,7 @@ class GameManager:
         platform.draw(screen)
         ball_1 = Ball()
         balls = [ball_1]
+        bonuses = []
         targets = Targets()
         score = 0
         targets.gift_bricks()
@@ -38,7 +40,7 @@ class GameManager:
                 for i in range(len(targets.gifted_bricks_list)):  # поиск мертвого кирпича в списке одаренных
                     if hit_index == targets.gifted_bricks_list[i]:
                         trigger_bonus(ball_1.x,
-                                      ball_1.y)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
+                                      ball_1.y, bonuses)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
 
                 score += 1
                 hit_rect = targets.brick_list.pop(hit_index)  # находим по индексу нужный кирпич и одновременно удаляем его из списка
@@ -63,6 +65,18 @@ class GameManager:
                 platform.move("left")
             if key[pygame.K_RIGHT]:
                 platform.move("right")
+                
+                
+            for bonus in bonuses:
+                if (bonus.x + bonus.width) > platform.x and bonus.x < (platform.x + platform.width) and (bonus.y + bonus.height) > platform.y and bonus.y < (platform.y + platform.height):
+                    bonus.boost(platform, balls)
+                    bonuses.remove(bonus)
+                else:
+                    bonus.move()
+            
+            for bonus in bonuses :
+                bonus.draw(screen)
+
 
             for ball in balls:
                 if ball.on_platform:
@@ -110,3 +124,4 @@ class GameManager:
 
 gm = GameManager()
 gm.main_loop(screen)
+
