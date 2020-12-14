@@ -156,12 +156,51 @@ class Targets:
 
 class Menu:
     def __init__(self):
-        self.buttons = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
+        self.button = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
+        self.click = [False, False, False]
 
-    def draw_menu(self, screen):
-        pygame.image.load("start.png")
+    def action(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for i in range(3):
+                if self.button[i].collidepoint(pygame.mouse.get_pos()):
+                    self.click[i] = True
 
+    def draw_start_menu(self, screen):
+        frame = pygame.image.load("frame.png")
+        frame = pygame.transform.scale(frame, (300, 80))
+        arcade_button = pygame.image.load("arcade.png")
+        endless_button = pygame.image.load("endless.png")
+        exit_button = pygame.image.load("exit.png")
+        arcade_button.blit(frame, (0, 0))
+        endless_button.blit(frame, (0, 0))
+        exit_button.blit(frame, (0, 0))
+        screen.blit(arcade_button, (250, 100))
+        screen.blit(endless_button, (250, 200))
+        screen.blit(exit_button, (250, 300))
 
+    def draw_pause_menu(self, screen):
+        frame = pygame.image.load("frame.png")
+        frame = pygame.transform.scale(frame, (300, 80))
+        continue_button = pygame.image.load("continue.png")
+        restart_button = pygame.image.load("restart.png")
+        exit_button = pygame.image.load("exit.png")
+        continue_button.blit(frame, (0, 0))
+        restart_button.blit(frame, (0, 0))
+        exit_button.blit(frame, (0, 0))
+        screen.blit(continue_button, (250, 100))
+        screen.blit(restart_button, (250, 200))
+        screen.blit(exit_button, (250, 300))
+
+    def draw_end_menu(self, screen):
+        frame = pygame.image.load("frame.png")
+        frame = pygame.transform.scale(frame, (300, 80))
+        restart_button = pygame.image.load("restart.png")
+        exit_button = pygame.image.load("exit.png")
+        restart_button.blit(frame, (0, 0))
+        exit_button.blit(frame, (0, 0))
+        rect(screen, RED_CORAL, (250, 100, 300, 80))
+        screen.blit(restart_button, (250, 200))
+        screen.blit(exit_button, (250, 300))
 
 if __name__ == "__main__":
     print("This module is not for direct call!")

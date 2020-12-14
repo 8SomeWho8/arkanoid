@@ -40,10 +40,12 @@ class GameManager:
                 for i in range(len(targets.gifted_bricks_list)):  # поиск мертвого кирпича в списке одаренных
                     if hit_index == targets.gifted_bricks_list[i]:
                         trigger_bonus(ball_1.x,
-                                      ball_1.y, bonuses)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
+                                      ball_1.y,
+                                      bonuses)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
 
                 score += 1
-                hit_rect = targets.brick_list.pop(hit_index)  # находим по индексу нужный кирпич и одновременно удаляем его из списка
+                hit_rect = targets.brick_list.pop(
+                    hit_index)  # находим по индексу нужный кирпич и одновременно удаляем его из списка
                 detect_collision(ball_1, hit_rect)  # функция для отражения мяча от кирпича
                 hit_color = targets.color_list.pop(hit_index)  # аналогично с цветом кирпича
             for event in pygame.event.get():
@@ -65,18 +67,17 @@ class GameManager:
                 platform.move("left")
             if key[pygame.K_RIGHT]:
                 platform.move("right")
-                
-                
+
             for bonus in bonuses:
-                if (bonus.x + bonus.width) > platform.x and bonus.x < (platform.x + platform.width) and (bonus.y + bonus.height) > platform.y and bonus.y < (platform.y + platform.height):
+                if (bonus.x + bonus.width) > platform.x and bonus.x < (platform.x + platform.width) and (
+                        bonus.y + bonus.height) > platform.y and bonus.y < (platform.y + platform.height):
                     bonus.boost(platform, balls)
                     bonuses.remove(bonus)
                 else:
                     bonus.move()
-            
-            for bonus in bonuses :
-                bonus.draw(screen)
 
+            for bonus in bonuses:
+                bonus.draw(screen)
 
             for ball in balls:
                 if ball.on_platform:
@@ -99,13 +100,13 @@ class GameManager:
             platform.draw(screen)
             heartimage = pygame.image.load("heart.png")
             heartimage = pygame.transform.scale(heartimage, [30, 30])
-            for i in range (0, platform.lives):
-                screen.blit(heartimage, (50 + 40*i, 20))
+            for i in range(0, platform.lives):
+                screen.blit(heartimage, (50 + 40 * i, 20))
 
             score_text = pygame.font.SysFont('arial', 30).render('Score:' + str(score), True, BLACK)
             screen.blit(score_text, (650, 20))
 
-            #if platform.lives == 0:
+            # if platform.lives == 0:
 
             pygame.display.update()
 
@@ -118,8 +119,6 @@ class GameManager:
                 if event.type == pygame.QUIT:
                     game_exit = True
                     pygame.quit()
-
-
 
 
 gm = GameManager()
