@@ -124,4 +124,3 @@ class GameManager:
 
 gm = GameManager()
 gm.main_loop(screen)
-

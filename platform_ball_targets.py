@@ -41,7 +41,7 @@ class Platform:
 
     def draw(self, screen):
         platformimage = pygame.image.load("platform.png")
-        platformimage = pygame.transform.scale(platformimage, [80, 20])
+        platformimage = pygame.transform.scale(platformimage, [round(self.width), round(self.height)])
         rect(screen, BLACK, self.physical_obj)
         screen.blit(platformimage, (self.x - self.width // 2, self.y - self.height // 2))
 
@@ -129,7 +129,7 @@ class Targets:
                            range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
     def draw_bricks(self, screen):
-        surf1 = pygame.image.load("frame.png")
+        surf1 = pygame.image.load("image003.png")
         surf1 = pygame.transform.scale(surf1, (self.width, self.height))
         for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
@@ -147,8 +147,8 @@ class Targets:
     def gift_bricks(self):
         self.gifted_bricks_list = []
         for i in range(len(self.brick_list)):
-            a = randint(1, 10)
-            if a == 10:
+            a = randint(1, 2)
+            if True:
                 self.gifted_bricks_list.append(i)
 
 
@@ -156,52 +156,10 @@ class Targets:
 
 class Menu:
     def __init__(self):
-        self.button = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
-        self.click = [False, False, False]
+        self.buttons = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
 
-    def action(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            for i in range(3):
-                if self.button[i].collidepoint(pygame.mouse.get_pos()):
-                    self.click[i] = True
-
-    def draw_start_menu(self, screen):
-        frame = pygame.image.load("frame.png")
-        frame = pygame.transform.scale(frame, (300, 80))
-        arcade_button = pygame.image.load("arcade.png")
-        endless_button = pygame.image.load("endless.png")
-        exit_button = pygame.image.load("exit.png")
-        arcade_button.blit(frame, (0, 0))
-        endless_button.blit(frame, (0, 0))
-        exit_button.blit(frame, (0, 0))
-        screen.blit(arcade_button, (250, 100))
-        screen.blit(endless_button, (250, 200))
-        screen.blit(exit_button, (250, 300))
-
-    def draw_pause_menu(self, screen):
-        frame = pygame.image.load("frame.png")
-        frame = pygame.transform.scale(frame, (300, 80))
-        continue_button = pygame.image.load("continue.png")
-        restart_button = pygame.image.load("restart.png")
-        exit_button = pygame.image.load("exit.png")
-        continue_button.blit(frame, (0, 0))
-        restart_button.blit(frame, (0, 0))
-        exit_button.blit(frame, (0, 0))
-        screen.blit(continue_button, (250, 100))
-        screen.blit(restart_button, (250, 200))
-        screen.blit(exit_button, (250, 300))
-
-    def draw_end_menu(self, screen):
-        frame = pygame.image.load("frame.png")
-        frame = pygame.transform.scale(frame, (300, 80))
-        restart_button = pygame.image.load("restart.png")
-        exit_button = pygame.image.load("exit.png")
-        restart_button.blit(frame, (0, 0))
-        exit_button.blit(frame, (0, 0))
-        rect(screen, RED_CORAL, (250, 100, 300, 80))
-        screen.blit(restart_button, (250, 200))
-        screen.blit(exit_button, (250, 300))
-
+    def draw_menu(self, screen):
+        pygame.image.load("start.png")
 
 
 
