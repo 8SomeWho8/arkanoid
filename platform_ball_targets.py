@@ -147,8 +147,8 @@ class Targets:
     def gift_bricks(self):
         self.gifted_bricks_list = []
         for i in range(len(self.brick_list)):
-            a = randint(1, 2)
-            if True:
+            a = randint(1, 10)
+            if a == 10:
                 self.gifted_bricks_list.append(i)
 
 
