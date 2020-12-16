@@ -33,16 +33,15 @@ class Platform:
         self.lives = 3
 
     def move(self, direction: str):
-        if direction == "left" and self.x > 40:
+        if direction == "left" and self.x > self.width / 2:
             self.x -= self.v
-        if direction == "right" and self.x < 760:
+        if direction == "right" and self.x < 800 - self.width / 2:
             self.x += self.v
         self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
 
     def draw(self, screen):
         platformimage = pygame.image.load("platform.png")
         platformimage = pygame.transform.scale(platformimage, [round(self.width), round(self.height)])
-        rect(screen, BLACK, self.physical_obj)
         screen.blit(platformimage, (self.x - self.width // 2, self.y - self.height // 2))
 
 

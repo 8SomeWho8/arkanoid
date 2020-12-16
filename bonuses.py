@@ -10,27 +10,24 @@ class Bonus:
         self.vx = 0
         self.width = 30
         self.height = 30
-        self.physical_obj = pygame.Rect(self.x - self.width/2, self.y - self.height/2,
+        self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2,
                                         self.width, self.height)
-        
+
         self.timer = 600
 
     def move(self):
         self.y += self.vy
-        
 
-   
     def collision_with_platform(self, platform: Platform):
         if self.physical_obj.colliderect(platform.physical_obj):
             return True
         else:
             return False
-        
+
     def draw(self, screen):
         bonusimage = pygame.image.load("ball.png")
         bonusimage = pygame.transform.scale(bonusimage, [30, 30])
         screen.blit(bonusimage, (self.x, self.y))
-        
 
 
 class SpeedBonus(Bonus):
@@ -50,7 +47,8 @@ class WidthBonus(Bonus):
 
     def boost(self, platform: Platform, balls):
         platform.width *= self.width_multiplier
-        
+        platform.physical_obj = pygame.Rect(platform.x - platform.width // 2, platform.y - platform.height // 2,
+                                            platform.width, platform.height)
         return 1
 
 
@@ -65,8 +63,6 @@ class SlowDownBonus(Bonus):
             ball.vx /= self.slow_multiplier
             ball.vy /= self.slow_multiplier
             return 2
-                
-                
 
 
 class AntiBonus:
@@ -77,27 +73,24 @@ class AntiBonus:
         self.vx = 0
         self.width = 30
         self.height = 30
-        self.physical_obj = pygame.Rect(self.x - self.width/2, self.y - self.height/2,
+        self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2,
                                         self.width, self.height)
-        
+
         self.timer = 600
 
     def move(self):
         self.y += self.vy
-        
 
-   
     def collision_with_platform(self, platform: Platform):
         if self.physical_obj.colliderect(platform.physical_obj):
             return True
         else:
             return False
-        
+
     def draw(self, screen):
         antibonusimage = pygame.image.load("heart.png")
         antibonusimage = pygame.transform.scale(antibonusimage, [30, 30])
         screen.blit(antibonusimage, (self.x, self.y))
-        
 
 
 class SpeedAntiBonus(AntiBonus):
@@ -120,7 +113,7 @@ class WidthAntiBonus(AntiBonus):
 
 class SlowDownAntiBonus(AntiBonus):
     def __init__(self, x, y):
-        Bonus.__init__(self, x, y)
+        AntiBonus.__init__(self, x, y)
         self.slow_multiplier = 1.5
 
     def boost(self, platform, balls):
@@ -128,11 +121,8 @@ class SlowDownAntiBonus(AntiBonus):
             ball.v *= self.slow_multiplier
             ball.vx *= self.slow_multiplier
             ball.vy *= self.slow_multiplier
-            
-            
-            
-            
-            
+
+
 def trigger_bonus(x, y, l, t):
     if t == 1:
         l.append(SpeedBonus(x, y))
