@@ -25,6 +25,7 @@ class GameManager:
         ball_1 = Ball()
         balls = [ball_1]
         bonuses = []
+        antibonuses = []
         targets = Targets()
         score = 0
         targets.gift_bricks()
@@ -43,9 +44,11 @@ class GameManager:
 
                     for i in range(len(targets.gifted_bricks_list)):  # поиск мертвого кирпича в списке одаренных
                         if hit_index == targets.gifted_bricks_list[i]:
+                            m = randint(1, 3)
                             trigger_bonus(ball_1.x,
                                           ball_1.y,
-                                          bonuses)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
+                                          bonuses,
+                                          m)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
 
                     score += 1
                     hit_rect = targets.brick_list.pop(
@@ -77,13 +80,24 @@ class GameManager:
                 for bonus in bonuses:
                     if (bonus.x + bonus.width) > platform.x and bonus.x < (platform.x + platform.width) and (
                             bonus.y + bonus.height) > platform.y and bonus.y < (platform.y + platform.height):
-                        bonus.boost(platform, balls)
+                        
+                        trigger_antibonus(0, 0, antibonuses, bonus.boost(platform, balls))
+                        
                         bonuses.remove(bonus)
                     else:
                         bonus.move()
 
                 for bonus in bonuses:
                     bonus.draw(screen)
+                    
+                    
+                for antibonus in antibonuses:
+                    if (antibonus.y + antibonus.height) > platform.y:
+                        
+                        antibonus.boost(platform, balls)
+                        antibonuses.remove(antibonus)
+                    else:
+                        antibonus.move()
 
                 for ball in balls:
                     if ball.on_platform:
