@@ -109,10 +109,15 @@ def detect_collision(obj1, obj2):
     else:
         delta_y = obj2.bottom - obj1.inner_square.top
     # Отражение скоростей
-    if delta_x > delta_y:
+    if abs(delta_x - delta_y) < 10:
+        obj1.vx *= -1
+        obj1.vy *= -1   
+        
+    elif delta_x > delta_y:
         obj1.vy *= -1
     elif delta_y > delta_x:
         obj1.vx *= -1
+    
 
 
 class Targets:
@@ -146,8 +151,8 @@ class Targets:
     def gift_bricks(self):
         self.gifted_bricks_list = []
         for i in range(len(self.brick_list)):
-            a = randint(1, 10)
-            if a == 10:
+            a = randint(1, 7)
+            if a == 1:
                 self.gifted_bricks_list.append(i)
 
 
