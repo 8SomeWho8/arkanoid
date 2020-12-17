@@ -9,14 +9,14 @@ class Bonus:
         self.vy = 3
         self.vx = 0
         self.width = 30
-        self.height = 30
-        self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2,
-                                        self.width, self.height)
+        self.height = 25
+        self.physical_obj = pygame.Rect(self.x, self.y, self.width, self.height)
 
         self.timer = 600
 
     def move(self):
         self.y += self.vy
+        self.physical_obj = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def collision_with_platform(self, platform: Platform):
         if self.physical_obj.colliderect(platform.physical_obj):
@@ -25,8 +25,8 @@ class Bonus:
             return False
 
     def draw(self, screen):
-        bonusimage = pygame.image.load("ball.png")
-        bonusimage = pygame.transform.scale(bonusimage, [30, 30])
+        bonusimage = pygame.image.load("Bonuses.png")
+        bonusimage = pygame.transform.scale(bonusimage, [30, 25])
         screen.blit(bonusimage, (self.x, self.y))
 
 
