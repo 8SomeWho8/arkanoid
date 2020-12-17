@@ -29,7 +29,7 @@ class GameManager:
         targets = Targets()
         score = 0
         targets.gift_bricks()
-        background = pygame.image.load("desert.png")
+        background = pygame.image.load("./images/desert.png")
         background = pygame.transform.scale(background, [800, 700])
 
         while not game_over and not game_restart:
@@ -119,7 +119,7 @@ class GameManager:
                     ball.draw(screen)
 
                 platform.draw(screen)
-                heartimage = pygame.image.load("heart.png")
+                heartimage = pygame.image.load("./images/heart.png")
                 heartimage = pygame.transform.scale(heartimage, [30, 30])
                 for i in range(0, platform.lives):
                     screen.blit(heartimage, (50 + 40 * i, 20))
@@ -149,8 +149,7 @@ class GameManager:
                     pygame.quit()
 
         while game_over:
-            clock.tick(FPS)
-            game_over_background = pygame.image.load('game_over.png')
+            game_over_background = pygame.image.load("./images/game_over.png")
             game_over_background = pygame.transform.scale(game_over_background, [800, 700])
             screen.blit(game_over_background, (0, 0))
             menu.draw_end_menu(screen)

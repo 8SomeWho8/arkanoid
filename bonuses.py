@@ -25,13 +25,14 @@ class Bonus:
             return False
 
     def draw(self, screen):
-        bonusimage = pygame.image.load("Bonuses.png")
+        bonusimage = pygame.image.load("./images/"+self.type+".png")
         bonusimage = pygame.transform.scale(bonusimage, [30, 25])
         screen.blit(bonusimage, (self.x, self.y))
 
 
 class SpeedBonus(Bonus):
     def __init__(self, x, y):
+        self.type = "SpeedBonus"
         Bonus.__init__(self, x, y)
         self.additional_speed = 5
 
@@ -42,6 +43,7 @@ class SpeedBonus(Bonus):
 
 class WidthBonus(Bonus):
     def __init__(self, x, y):
+        self.type = "WidthBonus"
         Bonus.__init__(self, x, y)
         self.width_multiplier = 1.5
 
@@ -54,6 +56,7 @@ class WidthBonus(Bonus):
 
 class SlowDownBonus(Bonus):
     def __init__(self, x, y):
+        self.type = "SlowDownBonus"
         Bonus.__init__(self, x, y)
         self.slow_multiplier = 1.5
 
@@ -88,7 +91,7 @@ class AntiBonus:
             return False
 
     def draw(self, screen):
-        antibonusimage = pygame.image.load("heart.png")
+        antibonusimage = pygame.image.load("./images/heart.png")
         antibonusimage = pygame.transform.scale(antibonusimage, [30, 30])
         screen.blit(antibonusimage, (self.x, self.y))
 

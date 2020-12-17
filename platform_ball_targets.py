@@ -40,7 +40,7 @@ class Platform:
         self.physical_obj = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
 
     def draw(self, screen):
-        platformimage = pygame.image.load("platform.png")
+        platformimage = pygame.image.load("./images/platform.png")
         platformimage = pygame.transform.scale(platformimage, [round(self.width), round(self.height)])
         screen.blit(platformimage, (self.x - self.width // 2, self.y - self.height // 2))
 
@@ -90,7 +90,7 @@ class Ball:
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
 
     def draw(self, screen):
-        ballimage = pygame.image.load("ball.png")
+        ballimage = pygame.image.load("./images/Ball.png")
         ballimage = pygame.transform.scale(ballimage, [18, 18])
         screen.blit(ballimage, (self.x - self.inner_square_radius, self.y - self.inner_square_radius))
 
@@ -133,7 +133,7 @@ class Targets:
                            range(self.horizontal_number * self.vertical_number)]  # случайный цвет
 
     def draw_bricks(self, screen):
-        surf1 = pygame.image.load("frame.png")
+        surf1 = pygame.image.load("./images/frame.png")
         surf1 = pygame.transform.scale(surf1, (self.width, self.height))
         for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
@@ -170,11 +170,11 @@ class Menu:
                     self.click[i] = True
 
     def draw_start_menu(self, screen):
-        frame = pygame.image.load("frame.png")
+        frame = pygame.image.load("./images/frame.png")
         frame = pygame.transform.scale(frame, (300, 80))
-        arcade_button = pygame.image.load("arcade.png")
-        endless_button = pygame.image.load("endless.png")
-        exit_button = pygame.image.load("exit.png")
+        arcade_button = pygame.image.load("./images/arcade.png")
+        endless_button = pygame.image.load("./images/endless.png")
+        exit_button = pygame.image.load("./images/exit.png")
         arcade_button.blit(frame, (0, 0))
         endless_button.blit(frame, (0, 0))
         exit_button.blit(frame, (0, 0))
@@ -183,11 +183,11 @@ class Menu:
         screen.blit(exit_button, (250, 300))
 
     def draw_pause_menu(self, screen):
-        frame = pygame.image.load("frame.png")
+        frame = pygame.image.load("./images/frame.png")
         frame = pygame.transform.scale(frame, (300, 80))
-        continue_button = pygame.image.load("continue.png")
-        restart_button = pygame.image.load("restart.png")
-        exit_button = pygame.image.load("exit.png")
+        continue_button = pygame.image.load("./images/continue.png")
+        restart_button = pygame.image.load("./images/restart.png")
+        exit_button = pygame.image.load("./images/exit.png")
         continue_button.blit(frame, (0, 0))
         restart_button.blit(frame, (0, 0))
         exit_button.blit(frame, (0, 0))
@@ -196,13 +196,12 @@ class Menu:
         screen.blit(exit_button, (250, 300))
 
     def draw_end_menu(self, screen):
-        frame = pygame.image.load("frame.png")
+        frame = pygame.image.load("./images/frame.png")
         frame = pygame.transform.scale(frame, (300, 80))
-        restart_button = pygame.image.load("restart.png")
-        exit_button = pygame.image.load("exit.png")
+        restart_button = pygame.image.load("./images/restart.png")
+        exit_button = pygame.image.load("./images/exit.png")
         restart_button.blit(frame, (0, 0))
         exit_button.blit(frame, (0, 0))
-        rect(screen, RED_CORAL, (250, 100, 300, 80))
         screen.blit(restart_button, (250, 200))
         screen.blit(exit_button, (250, 300))
 
