@@ -73,19 +73,20 @@ class GameManager:
                 key = pygame.key.get_pressed()
 
                 if key[pygame.K_LEFT]:
-                    platform.move("left")
+                    platform.move("left")       
                 if key[pygame.K_RIGHT]:
                     platform.move("right")
 
                 for bonus in bonuses:
-                    if (bonus.x + bonus.width) > platform.x and bonus.x < (platform.x + platform.width) and (
-                            bonus.y + bonus.height) > platform.y and bonus.y < (platform.y + platform.height):
-                        
-                        trigger_antibonus(0, 0, antibonuses, bonus.boost(platform, balls))
-                        
+                    if bonus.physical_obj.colliderect(platform.physical_obj):
+                        trigger_antibonus(0, 0, antibonuses, bonus.boost(platform, balls)) 
                         bonuses.remove(bonus)
+                        
                     else:
                         bonus.move()
+                        
+                    if bonus.y > 850  and len(bonuses) > 1:
+                        bonuses.remove(bonus)
 
                 for bonus in bonuses:
                     bonus.draw(screen)
