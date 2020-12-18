@@ -8,8 +8,8 @@ class Bonus:
         self.y = y
         self.vy = 3
         self.vx = 0
-        self.width = 30
-        self.height = 25
+        self.width = 32
+        self.height = 32
         self.physical_obj = pygame.Rect(self.x, self.y, self.width, self.height)
 
         self.timer = 600
@@ -26,7 +26,7 @@ class Bonus:
 
     def draw(self, screen):
         bonusimage = pygame.image.load("./images/"+self.type+".png")
-        bonusimage = pygame.transform.scale(bonusimage, [30, 25])
+        bonusimage = pygame.transform.scale(bonusimage, [32, 32])
         screen.blit(bonusimage, (self.x, self.y))
 
 
