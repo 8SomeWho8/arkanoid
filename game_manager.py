@@ -28,10 +28,9 @@ class GameManager:
         balls = [ball_1]
         bonuses = []
         antibonuses = []
-        targets = Targets()
         score = 0
-        targets.gift_bricks()
-        background = pygame.image.load("images/ground_desert.png")
+        level_map = "level1.txt"
+        background = pygame.image.load("./images/ground_desert.png")
         background = pygame.transform.scale(background, [800, 700])
 
         while not game_arcade and not game_endless:
@@ -47,6 +46,7 @@ class GameManager:
                     menu.action(event)
                 if menu.click[0] == True:
                     game_arcade = True
+                    menu.click[0] = False
                 elif menu.click[1] == True:
                     game_endless = True
                     menu.click[1] = False
@@ -54,6 +54,8 @@ class GameManager:
                     pygame.quit()
 
         while (game_arcade or game_endless) and not game_over and not game_restart and not game_win:
+            targets = Targets(level_map)
+            targets.gift_bricks()
             while not game_pause and not game_over:
                 clock.tick(FPS)
                 screen.blit(background, (0, 0))
@@ -68,7 +70,8 @@ class GameManager:
                             trigger_bonus(ball_1.x,
                                           ball_1.y,
                                           bonuses,
-                                          m)  # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича
+                                          m)
+                            # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича
                             # (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
                     score += 1
                     hit_rect = targets.brick_list.pop(
@@ -106,7 +109,7 @@ class GameManager:
                     else:
                         bonus.move()
                         
-                    if bonus.y > 850  and len(bonuses) > 1:
+                    if bonus.y > 850 and len(bonuses) > 1:
                         bonuses.remove(bonus)
 
                 for bonus in bonuses:

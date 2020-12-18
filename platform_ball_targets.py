@@ -121,16 +121,28 @@ def detect_collision(obj1, obj2):
 
 
 class Targets:
-    def __init__(self):
+    def __init__(self, level_map: str):
         self.height = 26
         self.width = 66
         self.horizontal_number = 11
         self.vertical_number = 4
-        self.brick_list = [pygame.Rect(8 + 72 * i, 87 + 33 * j, self.width, self.height) for i in
-                           range(self.horizontal_number)
-                           for j in range(self.vertical_number)]  # создание физичных прямоугольников
-        self.color_list = [choice(COLORS) for i in
-                           range(self.horizontal_number * self.vertical_number)]  # случайный цвет
+        self.brick_list = []
+        self.color_list = []
+        with open(level_map, 'r') as file:
+            level_map = file.read().split('\n')
+            level_map = level_map[:len(level_map) - 1]
+            for i in range(len(level_map)):
+                level_map[i] = level_map[i][1:len(level_map[i]) - 2]
+                level_map[i] = level_map[i].split(') (')
+                for j in range(len(level_map[i])):
+                    level_map[i][j] = level_map[i][j].split()
+                    for h in range(len(level_map[i][j])):
+                        level_map[i][j][h] = int(level_map[i][j][h])
+                    if level_map[i][j][0] != 0:
+                        self.brick_list.append(pygame.Rect(7 + 72 * j, 87 + 33 * i, self.width, self.height))
+                        self.color_list = [COLORS[level_map[i][j][1]] for h in range(len(self.brick_list))]
+        """self.color_list = [choice(COLORS) for i in
+                           range(len(self.brick_list))]  # случайный цвет"""
 
     def draw_bricks(self, screen):
         surf1 = pygame.image.load("./images/frame.png")
