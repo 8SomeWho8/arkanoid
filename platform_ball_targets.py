@@ -155,10 +155,10 @@ class Targets:
 
     def move(self):
         self.vertical_number += 1
+        for j in range(len(self.brick_list)):
+            self.brick_list[j].move_ip(0, 33)
         for i in range(self.horizontal_number):
-            for j in range(len(self.brick_list)):
-                self.brick_list[j].move_ip(0, 20)
-            self.brick_list.insert(0, pygame.Rect(8 + 48 * i, 27 + 27 * (self.vertical_number - 1),
+            self.brick_list.insert(0, pygame.Rect(7 + 72 * i, 87,
                                                   self.width, self.height))
             self.color_list.insert(0, choice(COLORS))
 
@@ -174,7 +174,7 @@ class Targets:
 
 class Menu:
     def __init__(self):
-        self.button = [pygame.Rect(250, 100 + 100 * i, 300, 80) for i in range(3)]
+        self.button = [pygame.Rect(250, 100 + 100 * i, 300, 70) for i in range(3)]
         self.click = [False, False, False]
 
     def action(self, event):
@@ -183,41 +183,39 @@ class Menu:
                 if self.button[i].collidepoint(pygame.mouse.get_pos()):
                     self.click[i] = True
 
-    def draw_start_menu(self, screen):
+    def draw(self, screen, type:str):
         frame = pygame.image.load("./images/frame.png")
-        frame = pygame.transform.scale(frame, (300, 80))
-        arcade_button = pygame.image.load("images/button_arcade.png")
-        endless_button = pygame.image.load("images/button_endless.png")
-        exit_button = pygame.image.load("images/button_exit.png")
-        arcade_button.blit(frame, (0, 0))
-        endless_button.blit(frame, (0, 0))
-        exit_button.blit(frame, (0, 0))
-        screen.blit(arcade_button, (250, 100))
-        screen.blit(endless_button, (250, 200))
-        screen.blit(exit_button, (250, 300))
+        frame = pygame.transform.scale(frame, (300, 70))
+        button_1 = pygame.Surface((300, 70))
+        button_2 = pygame.Surface((300, 70))
+        button_3 = pygame.Surface((300, 70))
+        if type == "start":
+            button_1 = pygame.image.load("images/button_arcade.png")
+            button_2 = pygame.image.load("images/button_endless.png")
+            button_3 = pygame.image.load("images/button_exit.png")
+        elif type == "level":
+            button_1 = pygame.image.load("images/button_level1.png")
+            button_2 = pygame.image.load("images/button_level2.png")
+            button_3 = pygame.image.load("images/button_level3.png")
+        elif type == "pause":
+            button_1 = pygame.image.load("images/button_continue.png")
+            button_2 = pygame.image.load("images/button_restart.png")
+            button_3 = pygame.image.load("images/button_exit.png")
+        elif type == "end":
+            button_1 = pygame.image.load("images/button_yetuseless.png")
+            button_2 = pygame.image.load("images/button_restart.png")
+            button_3 = pygame.image.load("images/button_exit.png")
+        button_1 = pygame.transform.scale(button_1, (300, 70))
+        button_2 = pygame.transform.scale(button_2, (300, 70))
+        button_3 = pygame.transform.scale(button_3, (300, 70))
+        if not type == "end":
+            button_1.blit(frame, (0, 0))
+        button_2.blit(frame, (0, 0))
+        button_3.blit(frame, (0, 0))
+        screen.blit(button_1, (250, 100))
+        screen.blit(button_2, (250, 200))
+        screen.blit(button_3, (250, 300))
 
-    def draw_pause_menu(self, screen):
-        frame = pygame.image.load("./images/frame.png")
-        frame = pygame.transform.scale(frame, (300, 80))
-        continue_button = pygame.image.load("images/button_continue.png")
-        restart_button = pygame.image.load("images/button_restart.png")
-        exit_button = pygame.image.load("images/button_exit.png")
-        continue_button.blit(frame, (0, 0))
-        restart_button.blit(frame, (0, 0))
-        exit_button.blit(frame, (0, 0))
-        screen.blit(continue_button, (250, 100))
-        screen.blit(restart_button, (250, 200))
-        screen.blit(exit_button, (250, 300))
-
-    def draw_end_menu(self, screen):
-        frame = pygame.image.load("./images/frame.png")
-        frame = pygame.transform.scale(frame, (300, 80))
-        restart_button = pygame.image.load("images/button_restart.png")
-        exit_button = pygame.image.load("images/button_exit.png")
-        restart_button.blit(frame, (0, 0))
-        exit_button.blit(frame, (0, 0))
-        screen.blit(restart_button, (250, 200))
-        screen.blit(exit_button, (250, 300))
 
 if __name__ == "__main__":
     print("This module is not for direct call!")

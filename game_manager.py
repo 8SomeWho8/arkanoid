@@ -21,6 +21,7 @@ class GameManager:
         game_pause = False
         game_arcade = False
         game_endless = False
+        game_end = False
         menu = Menu()
         platform = Platform()
         platform.draw(screen)
@@ -29,18 +30,20 @@ class GameManager:
         bonuses = []
         antibonuses = []
         score = 0
-        level_map = "level1.txt"
+        time = 0
+        level_map = "./levels/endless.txt"
         background = pygame.image.load("./images/ground_desert.png")
         background = pygame.transform.scale(background, [800, 700])
 
-        while not game_arcade and not game_endless:
+        while not game_arcade and not game_endless and not game_end:
             game_start_background = pygame.image.load("./images/game_start.png")
             game_start_background = pygame.transform.scale(game_start_background, [800, 700])
             screen.blit(game_start_background, (0, 0))
-            menu.draw_start_menu(screen)
+            menu.draw(screen, "start")
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    game_end = True
                     pygame.quit()
                 else:
                     menu.action(event)
@@ -51,22 +54,49 @@ class GameManager:
                     game_endless = True
                     menu.click[1] = False
                 elif menu.click[2] == True:
+                    menu.click[1] = False
+                    game_end = True
                     pygame.quit()
 
-        while (game_arcade or game_endless) and not game_over and not game_restart and not game_win:
+        while game_arcade and not game_end:
+            game_level_background = pygame.image.load("./images/game_level.png")
+            game_level_background = pygame.transform.scale(game_level_background, [800, 700])
+            screen.blit(game_level_background, (0, 0))
+            menu.draw(screen, "level")
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    game_end = True
+                else:
+                    menu.action(event)
+                if menu.click[0] == True:
+                    level_map = "./levels/level1.txt"
+                    game_arcade = False
+                    menu.click[0] = False
+                elif menu.click[1] == True:
+                    level_map = "./levels/level2.txt"
+                    game_arcade = False
+                    menu.click[1] = False
+                elif menu.click[2] == True:
+                    level_map = "./levels/level3.txt"
+                    game_arcade = False
+                    menu.click[2] = False
+
+        while not game_over and not game_restart and not game_win and not game_end:
             targets = Targets(level_map)
             targets.gift_bricks()
             while not game_pause and not game_over:
                 clock.tick(FPS)
                 screen.blit(background, (0, 0))
-
+                time+=1
                 # метод collidelist() находит индекс кирпича с которым столкнулся мяч, или -1 если столкновения не было
                 hit_index = ball_1.inner_square.collidelist(
                     targets.brick_list)  # hit_index=главный_обьект.collidelist(обьект, с которым проверяется столкновение)
                 if hit_index != -1:
                     for i in range(len(targets.gifted_bricks_list)):  # поиск мертвого кирпича в списке одаренных
                         if hit_index == targets.gifted_bricks_list[i]:
-                            m = randint(1, 3)
+                            m = randint(1, 13)
                             trigger_bonus(ball_1.x,
                                           ball_1.y,
                                           bonuses,
@@ -82,6 +112,7 @@ class GameManager:
                     game_win = True
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
+                        game_end = True
                         pygame.quit()
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE:
@@ -114,8 +145,7 @@ class GameManager:
 
                 for bonus in bonuses:
                     bonus.draw(screen)
-                    
-                    
+
                 for antibonus in antibonuses:
                     if (antibonus.y + antibonus.height) > platform.y:
                         
@@ -137,6 +167,12 @@ class GameManager:
                     elif platform.lives == 1 and ball.y > 800 + ball.radius and len(balls) == 1:
                         game_over = True
 
+                if time == 300:
+                    time = 0
+                    targets.move()
+                for i in range (len(targets.brick_list)):
+                    if targets.brick_list[i].bottom > 630:
+                        game_over = True
                 targets.draw_bricks(screen)
 
                 for ball in balls:
@@ -154,7 +190,7 @@ class GameManager:
                 pygame.display.update()
             while game_pause:
                 screen.blit(background, (0, 0))
-                menu.draw_pause_menu(screen)
+                menu.draw(screen, "pause")
                 pygame.display.update()
                 for event in pygame.event.get():
                     menu.action(event)
@@ -167,6 +203,7 @@ class GameManager:
                     menu.click[1] = False
                 elif menu.click[2] == True:
                     menu.click[2] = False
+                    game_end = True
                     pygame.quit()
 
         while game_over or game_win:
@@ -177,24 +214,23 @@ class GameManager:
                 game_end_background = pygame.image.load("./images/game_win.png")
             game_end_background = pygame.transform.scale(game_end_background, [800, 700])
             screen.blit(game_end_background, (0, 0))
-            menu.draw_end_menu(screen)
+            menu.draw(screen, "end")
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    game_end = True
                     pygame.quit()
                 else:
                     menu.action(event)
-                if menu.click[0] == True:
-                    pygame.quit()
-                elif menu.click[1] == True:
+                if menu.click[1] == True:
                     game_restart = True
                     game_over = False
                     menu.click[1] = False
                 elif menu.click[2] == True:
-                    game_over = True
+                    game_end = True
                     pygame.quit()
 
-        while game_restart:
+        while game_restart and not game_end:
             self.main_loop(screen)
             game_restart = False
 
