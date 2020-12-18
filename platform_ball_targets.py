@@ -17,7 +17,9 @@ VINOUS = (113, 25, 25)
 RED_CORAL = (255, 127, 80)
 BLUE_STEEL = (80, 127, 255)
 LIME = (204, 255, 0)
-COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, LILAC, AMBER, RED_CORAL, BLUE_STEEL, LIME]
+WHITE = (255, 255, 255)
+DARK_GREEN = (13, 109, 2)
+COLORS = [RED, BLUE, YELLOW, GREEN, BLACK, WHITE, MAGENTA, CYAN, LILAC, AMBER, RED_CORAL, DARK_GREEN, BLUE_STEEL, LIME]
 
 
 class Platform:
@@ -58,7 +60,7 @@ class Ball:
         self.v = (self.vx ** 2 + self.vy ** 2) ** 0.5
         self.radius = 9  # радиус шарика
 
-        self.on_platform = False
+        self.on_platform = True
         # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
         self.inner_square_radius = self.radius / 2 ** 0.5
         # Создал физичный квадратик
@@ -140,7 +142,7 @@ class Targets:
                         level_map[i][j][h] = int(level_map[i][j][h])
                     if level_map[i][j][0] != 0:
                         self.brick_list.append(pygame.Rect(7 + 72 * j, 87 + 33 * i, self.width, self.height))
-                        self.color_list = [COLORS[level_map[i][j][1]] for h in range(len(self.brick_list))]
+                        self.color_list.append(COLORS[level_map[i][j][1]])
         """self.color_list = [choice(COLORS) for i in
                            range(len(self.brick_list))]  # случайный цвет"""
 
