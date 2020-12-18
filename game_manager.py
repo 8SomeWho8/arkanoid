@@ -207,7 +207,7 @@ class GameManager:
                     game_end = True
                     pygame.quit()
 
-        while game_over or game_win:
+        while (game_over or game_win) and not game_end:
             game_end_background = pygame.Surface((800, 700))
             if game_over:
                 game_end_background = pygame.image.load("./images/game_over.png")
