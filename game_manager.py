@@ -28,12 +28,18 @@ class GameManager:
         score = 0
         time = 0
         level_map = "./levels/endless.txt"
-        background = pygame.image.load("./images/ground_desert.png")
-        background = pygame.transform.scale(background, [800, 700])
+        back_score = pygame.Surface((800, 70))
+        back_score.fill((255, 255, 255))
+        background = pygame.image.load("./images/endless_ground.png")
+        background = pygame.transform.scale(background, [800, 630])
+        game_start_background = pygame.image.load("./images/game_start.png")
+        game_start_background = pygame.transform.scale(game_start_background, [800, 700])
+        game_level_background = pygame.image.load("./images/game_level.png")
+        game_level_background = pygame.transform.scale(game_level_background, [800, 700])
+        heart_image = pygame.image.load("./images/heart.png")
+        heart_image = pygame.transform.scale(heart_image, [30, 30])
 
         while not game_arcade and not game_endless and not game_end:
-            game_start_background = pygame.image.load("./images/game_start.png")
-            game_start_background = pygame.transform.scale(game_start_background, [800, 700])
             screen.blit(game_start_background, (0, 0))
             menu.draw(screen, "start")
             pygame.display.update()
@@ -53,8 +59,6 @@ class GameManager:
                     game_end = True
 
         while game_arcade and not game_end:
-            game_level_background = pygame.image.load("./images/game_level.png")
-            game_level_background = pygame.transform.scale(game_level_background, [800, 700])
             screen.blit(game_level_background, (0, 0))
             menu.draw(screen, "level")
             pygame.display.update()
@@ -65,24 +69,27 @@ class GameManager:
                     menu.action(event)
                 if menu.click[0]:
                     level_map = "./levels/level1.txt"
+                    background = pygame.image.load("./images/level1_ground.png")
                     game_arcade = False
                     menu.click[0] = False
                 elif menu.click[1]:
                     level_map = "./levels/level2.txt"
+                    background = pygame.image.load("./images/level2_ground.png")
                     game_arcade = False
                     menu.click[1] = False
                 elif menu.click[2]:
                     level_map = "./levels/level3.txt"
+                    background = pygame.image.load("./images/level3_ground.png")
                     game_arcade = False
                     menu.click[2] = False
 
         while not game_over and not game_restart and not game_win and not game_end:
             targets = Targets(level_map)
             targets.gift_bricks()
-
             while not game_pause and not game_over and not game_end:
                 clock.tick(FPS)
-                screen.blit(background, (0, 0))
+                screen.blit(back_score, (0, 0))
+                screen.blit(background, (0, 70))
                 time += 1
                 # метод collidelist() находит индекс кирпича с которым столкнулся мяч, или -1 если столкновения не было
                 # hit_index=главный_обьект.collidelist(обьект, с которым проверяется столкновение)
@@ -173,18 +180,15 @@ class GameManager:
                     ball.draw(screen)
 
                 platform.draw(screen)
-
-                heart_image = pygame.image.load("./images/heart.png")
-                heart_image = pygame.transform.scale(heart_image, [30, 30])
                 for i in range(0, platform.lives):
                     screen.blit(heart_image, (50 + 40 * i, 20))
 
                 score_text = pygame.font.Font('Thintel.ttf', 50).render('Score: ' + str(score), True, BLACK)
-                screen.blit(score_text, (650, 20))
+                screen.blit(score_text, (650, 10))
 
                 pygame.display.update()
             while game_pause and not game_end:
-                screen.blit(background, (0, 0))
+                screen.blit(game_start_background, (0, 0))
                 menu.draw(screen, "pause")
                 pygame.display.update()
                 for event in pygame.event.get():
