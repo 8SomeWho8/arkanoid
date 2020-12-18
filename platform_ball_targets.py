@@ -178,6 +178,7 @@ class Menu:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             for i in range(3):
                 if self.button[i].collidepoint(pygame.mouse.get_pos()):
+                    pygame.mixer.Sound("./sounds/sfx_button_clicked.ogg").play()
                     self.click[i] = True
 
     def draw(self, screen, type: str):

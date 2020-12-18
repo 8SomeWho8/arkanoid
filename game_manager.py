@@ -152,9 +152,10 @@ class GameManager:
                     elif ball.y > 800 + ball.radius and len(balls) > 1:
                         balls.remove(ball)
                     elif platform.lives == 1 and ball.y > 800 + ball.radius and len(balls) == 1:
+                        pygame.mixer.Sound("./sounds/sfx_game_over.ogg").play()
                         game_over = True
 
-                if game_endless:
+                if game_endless and not game_over:
                     if time == 900:
                         time = 0
                         targets.move()
