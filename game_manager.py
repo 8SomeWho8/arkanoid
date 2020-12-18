@@ -167,12 +167,13 @@ class GameManager:
                     elif platform.lives == 1 and ball.y > 800 + ball.radius and len(balls) == 1:
                         game_over = True
 
-                if time == 300:
-                    time = 0
-                    targets.move()
-                for i in range (len(targets.brick_list)):
-                    if targets.brick_list[i].bottom > 630:
-                        game_over = True
+                if game_endless:
+                    if time == 300:
+                        time = 0
+                        targets.move()
+                    for i in range (len(targets.brick_list)):
+                        if targets.brick_list[i].bottom > 630:
+                            game_over = True
                 targets.draw_bricks(screen)
 
                 for ball in balls:
