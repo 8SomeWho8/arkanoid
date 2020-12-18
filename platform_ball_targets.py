@@ -72,7 +72,7 @@ class Ball:
         w = platform.width
         if self.x + self.vx < 0 or self.x + self.vx > 800:
             self.vx = -self.vx
-        if self.y + self.vy < 50:
+        if self.y + self.vy < 70:
             self.vy = -self.vy
         if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)
@@ -113,19 +113,19 @@ def detect_collision(obj1, obj2):
     # Отражение скоростей
     if abs(delta_x - delta_y) < 10:
         obj1.vx *= -1
-        obj1.vy *= -1   
-        
+        obj1.vy *= -1
+
     elif delta_x > delta_y:
         obj1.vy *= -1
     elif delta_y > delta_x:
         obj1.vx *= -1
-    
 
 
 class Targets:
     def __init__(self, level_map: str):
-        self.height = 26
-        self.width = 66
+        self.gifted_bricks_list = []
+        self.height = 33
+        self.width = 72
         self.horizontal_number = 11
         self.vertical_number = 4
         self.brick_list = []
@@ -163,13 +163,10 @@ class Targets:
             self.color_list.insert(0, choice(COLORS))
 
     def gift_bricks(self):
-        self.gifted_bricks_list = []
         for i in range(len(self.brick_list)):
             a = randint(1, 7)
             if a == 1:
                 self.gifted_bricks_list.append(i)
-
-
 
 
 class Menu:
@@ -178,12 +175,12 @@ class Menu:
         self.click = [False, False, False]
 
     def action(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             for i in range(3):
                 if self.button[i].collidepoint(pygame.mouse.get_pos()):
                     self.click[i] = True
 
-    def draw(self, screen, type:str):
+    def draw(self, screen, type: str):
         frame = pygame.image.load("./images/frame.png")
         frame = pygame.transform.scale(frame, (300, 70))
         button_1 = pygame.Surface((300, 70))

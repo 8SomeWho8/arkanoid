@@ -1,6 +1,3 @@
-import pygame
-from pygame.draw import *
-from platform_ball_targets import *
 from bonuses import *
 
 pygame.init()
@@ -24,7 +21,6 @@ class GameManager:
         game_end = False
         menu = Menu()
         platform = Platform()
-        platform.draw(screen)
         ball_1 = Ball()
         balls = [ball_1]
         bonuses = []
@@ -44,19 +40,17 @@ class GameManager:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_end = True
-                    pygame.quit()
                 else:
                     menu.action(event)
-                if menu.click[0] == True:
+                if menu.click[0]:
                     game_arcade = True
                     menu.click[0] = False
-                elif menu.click[1] == True:
+                elif menu.click[1]:
                     game_endless = True
                     menu.click[1] = False
-                elif menu.click[2] == True:
-                    menu.click[1] = False
+                elif menu.click[2]:
+                    menu.click[2] = False
                     game_end = True
-                    pygame.quit()
 
         while game_arcade and not game_end:
             game_level_background = pygame.image.load("./images/game_level.png")
@@ -66,19 +60,18 @@ class GameManager:
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
                     game_end = True
                 else:
                     menu.action(event)
-                if menu.click[0] == True:
+                if menu.click[0]:
                     level_map = "./levels/level1.txt"
                     game_arcade = False
                     menu.click[0] = False
-                elif menu.click[1] == True:
+                elif menu.click[1]:
                     level_map = "./levels/level2.txt"
                     game_arcade = False
                     menu.click[1] = False
-                elif menu.click[2] == True:
+                elif menu.click[2]:
                     level_map = "./levels/level3.txt"
                     game_arcade = False
                     menu.click[2] = False
@@ -86,39 +79,38 @@ class GameManager:
         while not game_over and not game_restart and not game_win and not game_end:
             targets = Targets(level_map)
             targets.gift_bricks()
-            while not game_pause and not game_over:
+
+            while not game_pause and not game_over and not game_end:
                 clock.tick(FPS)
                 screen.blit(background, (0, 0))
-                time+=1
+                time += 1
                 # метод collidelist() находит индекс кирпича с которым столкнулся мяч, или -1 если столкновения не было
-                hit_index = ball_1.inner_square.collidelist(
-                    targets.brick_list)  # hit_index=главный_обьект.collidelist(обьект, с которым проверяется столкновение)
+                # hit_index=главный_обьект.collidelist(обьект, с которым проверяется столкновение)
+                hit_index = ball_1.inner_square.collidelist(targets.brick_list)
                 if hit_index != -1:
                     for i in range(len(targets.gifted_bricks_list)):  # поиск мертвого кирпича в списке одаренных
                         if hit_index == targets.gifted_bricks_list[i]:
                             m = randint(1, 13)
-                            trigger_bonus(ball_1.x,
-                                          ball_1.y,
-                                          bonuses,
-                                          m)
-                            # запускается функция появления и дальнейшей жизни бонуса, а также передается примерное место смерти кирпича
-                            # (не придумал как запросить координаты мертвого кирпича, решил взять координату шарика, она не сильно отличается)
+                            # запускается функция появления и дальнейшей жизни бонуса на месте смерти кирпича
+                            trigger_bonus(targets.brick_list[targets.gifted_bricks_list[i]].center[0],
+                                          targets.brick_list[targets.gifted_bricks_list[i]].center[1], bonuses, m)
+
                     score += 1
-                    hit_rect = targets.brick_list.pop(
-                        hit_index)  # находим по индексу нужный кирпич и одновременно удаляем его из списка
+                    # находим по индексу нужный кирпич и одновременно удаляем его из списка
+                    hit_rect = targets.brick_list.pop(hit_index)
                     detect_collision(ball_1, hit_rect)  # функция для отражения мяча от кирпича
-                    hit_color = targets.color_list.pop(hit_index)  # аналогично с цветом кирпича
+                    targets.color_list.pop(hit_index)  # аналогично с цветом кирпича
                 if len(targets.brick_list) == 0:
                     game_win = True
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         game_end = True
-                        pygame.quit()
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE:
                             for ball in balls:
                                 if ball.on_platform:
-                                    alpha = np.arctan(2 * (ball.x - platform.x) / platform.width * np.tan(7 * np.pi / 18))
+                                    alpha = np.arctan(
+                                        2 * (ball.x - platform.x) / platform.width * np.tan(7 * np.pi / 18))
                                     ball.vx = round(ball.v * np.sin(alpha))
                                     ball.vy = - round(ball.v * np.cos(alpha))
                                     ball.on_platform = False
@@ -128,27 +120,22 @@ class GameManager:
                 key = pygame.key.get_pressed()
 
                 if key[pygame.K_LEFT]:
-                    platform.move("left")       
+                    platform.move("left")
                 if key[pygame.K_RIGHT]:
                     platform.move("right")
 
                 for bonus in bonuses:
                     if bonus.physical_obj.colliderect(platform.physical_obj):
-                        trigger_antibonus(0, 0, antibonuses, bonus.boost(platform, balls)) 
+                        trigger_antibonus(0, 0, antibonuses, bonus.boost(platform, balls))
                         bonuses.remove(bonus)
-                        
                     else:
                         bonus.move()
-                        
-                    if bonus.y > 850 and len(bonuses) > 1:
-                        bonuses.remove(bonus)
 
-                for bonus in bonuses:
-                    bonus.draw(screen)
+                    if bonus.y > 850:
+                        bonuses.remove(bonus)
 
                 for antibonus in antibonuses:
                     if (antibonus.y + antibonus.height) > platform.y:
-                        
                         antibonus.boost(platform, balls)
                         antibonuses.remove(antibonus)
                     else:
@@ -168,44 +155,49 @@ class GameManager:
                         game_over = True
 
                 if game_endless:
-                    if time == 300:
+                    if time == 900:
                         time = 0
                         targets.move()
-                    for i in range (len(targets.brick_list)):
+                        targets.gift_bricks()
+                    for i in range(len(targets.brick_list)):
                         if targets.brick_list[i].bottom > 630:
                             game_over = True
+
                 targets.draw_bricks(screen)
+
+                for bonus in bonuses:
+                    bonus.draw(screen)
 
                 for ball in balls:
                     ball.draw(screen)
 
                 platform.draw(screen)
-                heartimage = pygame.image.load("./images/heart.png")
-                heartimage = pygame.transform.scale(heartimage, [30, 30])
+
+                heart_image = pygame.image.load("./images/heart.png")
+                heart_image = pygame.transform.scale(heart_image, [30, 30])
                 for i in range(0, platform.lives):
-                    screen.blit(heartimage, (50 + 40 * i, 20))
+                    screen.blit(heart_image, (50 + 40 * i, 20))
 
                 score_text = pygame.font.Font('Thintel.ttf', 50).render('Score: ' + str(score), True, BLACK)
                 screen.blit(score_text, (650, 20))
 
                 pygame.display.update()
-            while game_pause:
+            while game_pause and not game_end:
                 screen.blit(background, (0, 0))
                 menu.draw(screen, "pause")
                 pygame.display.update()
                 for event in pygame.event.get():
                     menu.action(event)
-                if menu.click[0] == True:
+                if menu.click[0]:
                     game_pause = False
                     menu.click[0] = False
-                elif menu.click[1] == True:
+                elif menu.click[1]:
                     game_pause = False
                     game_restart = True
                     menu.click[1] = False
-                elif menu.click[2] == True:
+                elif menu.click[2]:
                     menu.click[2] = False
                     game_end = True
-                    pygame.quit()
 
         while (game_over or game_win) and not game_end:
             game_end_background = pygame.Surface((800, 700))
@@ -220,21 +212,22 @@ class GameManager:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_end = True
-                    pygame.quit()
                 else:
                     menu.action(event)
-                if menu.click[1] == True:
+                if menu.click[1]:
                     game_restart = True
                     game_over = False
                     menu.click[1] = False
-                elif menu.click[2] == True:
+                elif menu.click[2]:
                     game_end = True
-                    pygame.quit()
 
         while game_restart and not game_end:
-            self.main_loop(screen)
             game_restart = False
+            self.main_loop(screen)
+
+        pygame.quit()
 
 
-gm = GameManager()
-gm.main_loop(screen)
+if __name__ == "__main__":
+    gm = GameManager()
+    gm.main_loop(screen)
