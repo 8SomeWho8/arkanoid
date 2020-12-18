@@ -66,6 +66,17 @@ class SlowDownBonus(Bonus):
             ball.vx /= self.slow_multiplier
             ball.vy /= self.slow_multiplier
             return 2
+        
+        
+class LifeBonus(Bonus):
+    def __init__(self, x, y):
+        self.type = "LifeBonus"
+        Bonus.__init__(self, x, y)
+        self.health_boost = 1
+        
+    def boost(self, platform, balls):
+        platform.lives += self.health_boost
+    
 
 
 class AntiBonus:
@@ -127,12 +138,15 @@ class SlowDownAntiBonus(AntiBonus):
 
 
 def trigger_bonus(x, y, l, t):
-    if t == 1:
+    print(t)
+    if t == 1 or t == 2 or t == 3 or t == 4:
         l.append(SpeedBonus(x, y))
-    elif t == 2:
+    elif t == 5 or t == 6 or t == 7 or t == 8:
         l.append(WidthBonus(x, y))
-    elif t == 3:
+    elif t == 9 or t == 10 or t == 11 or t == 12:
         l.append(SlowDownBonus(x, y))
+    elif t == 13:
+        l.append(LifeBonus(x, y))
 
 
 def trigger_antibonus(x, y, b, p):
@@ -142,8 +156,9 @@ def trigger_antibonus(x, y, b, p):
         b.append(WidthAntiBonus(x, y))
     elif p == 2:
         b.append(SlowDownAntiBonus(x, y))
+    elif p == 3:
+        pass
 
-    pass
 
 
 if __name__ == "__main__":
