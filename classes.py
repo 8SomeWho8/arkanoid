@@ -156,6 +156,13 @@ class Targets:
         for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
             screen.blit(surf1, self.brick_list[i])
+        #FIXME     
+        surf2 = pygame.image.load("./images/explosivebricks.png")
+        surf2 = pygame.transform.scale(surf2, (self.width, self.height))
+        for k in range(len(self.gifted_explosive_bricks_list)):
+            screen.blit(surf2, self.brick_list[i])
+        
+        
 
     def move(self):
         self.vertical_number += 1
@@ -171,6 +178,14 @@ class Targets:
             a = randint(1, 7)
             if a == 1:
                 self.gifted_bricks_list.append(i)
+                
+    #дает некоторым кирпичам возможность взорваться            
+    def gift_explosive_bricks(self):
+        self.gifted_explosive_bricks_list = []
+        for i in range(len(self.brick_list)):
+            a = randint(1, 7)
+            if a == 1:
+                self.gifted_explosive_bricks_list.append(i)
 
 
 class Menu:
