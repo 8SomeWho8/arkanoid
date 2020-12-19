@@ -72,7 +72,7 @@ class LifeBonus(Bonus):
         platform.lives += self.health_boost
 
 
-class AntiBonus:
+class AntiBonus: #нужны для удобной деактивации эффекта бонусов
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
@@ -144,7 +144,15 @@ def trigger_antibonus(x, y, list_of_antibonuses, p):
         list_of_antibonuses.append(SlowDownAntiBonus(x, y))
     elif p == 3:
         pass
+    
+    
+#На кадр увеличивает ралиус шара, почти равносильно взрыву
+def trigger_explosion(x, y, obj8):
+    obj8.radius *= 10
+    
+
 
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
+
