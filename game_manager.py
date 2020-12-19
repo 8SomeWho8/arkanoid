@@ -92,6 +92,7 @@ class GameManager:
             targets = Targets(level_map)
             targets.gift_bricks()
             while not game_pause and not game_over and not game_end:
+                ball_1.radius = 9 #нужно, чтобы по прошествии кадра размер шарика обратно уменьшался
                 clock.tick(FPS)
                 screen.blit(back_score, (0, 0))
                 screen.blit(background, (0, 70))
@@ -107,6 +108,13 @@ class GameManager:
                             # запускается функция появления и дальнейшей жизни бонуса на месте смерти кирпича
                             trigger_bonus(targets.brick_list[targets.gifted_bricks_list[i]].center[0],
                                           targets.brick_list[targets.gifted_bricks_list[i]].center[1], bonuses, m)
+                            
+                    #Проверка на взрывоопасность        
+                    for k in range(len(targets.gifted_explosive_bricks_list)):
+                        if hit_index == targets.gifted_explosive_bricks_list[k]:
+                            trigger_explosion(ball_1.x, ball_1.y, ball)
+                            print('booom') #для отладки
+
 
 
                     score += 1
@@ -212,6 +220,107 @@ class GameManager:
                 elif menu.click[2]:
                     menu.click[2] = False
                     game_end = True
+                    
+                    
+        if game_endless and game_over:
+            
+            #Анимированное окно ввода ника
+            w = 800
+            h = 800
+            button_width = 300
+            button_height = 100
+            font = pygame.font.Font(None, 50)
+            clock = pygame.time.Clock()
+            input_box = pygame.Rect(int((w - button_width) /2) + 15, int(h / 2 - 10), int(button_width - 15), 50)
+            color_inactive = (100, 100, 100)
+            color_active = (0, 0, 0)
+            color = color_inactive
+            active = False
+            text = ''
+            done = False
+        
+            while not done:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if input_box.collidepoint(event.pos):
+                            active = not active
+                        else:
+                            active = False
+                        color = color_active if active else color_inactive
+                    if event.type == pygame.KEYDOWN:
+                        if active:
+                            if event.key == pygame.K_RETURN:
+                                with open('currentnickname.txt', 'a') as f:
+                                    print(text, file=f)
+                                    done = True
+                                    finished = True
+                                    break
+                                    return
+                            elif event.key == pygame.K_BACKSPACE:
+                                text = text[:-1]
+                            else:
+                                text += event.unicode
+                    
+                screen.fill((0, 0, 0))
+                rect(screen, (255,218,158), (int((w - button_width) / 2), int((h - button_height) / 2), button_width, button_height))
+                name_text = font.render('Enter your name ', 1, (99, 128, 255))
+                screen.blit(name_text, (int((w - button_width) / 2) + 11, int((h - button_height) / 2) + 3))
+                txt_surface = font.render(text, True, color)
+                width = button_width - 30
+                input_box.w = width
+                screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
+                pygame.draw.rect(screen, color, input_box, 2)
+                pygame.display.flip()
+                clock.tick(30)
+            
+            #Передача ника во вспомогательный файл с рейтингом
+            nickbase = open('currentnickname.txt', 'r')
+            s = nickbase.readline()
+            k = s.rstrip()
+            nickbase.close()
+            nickname = k
+            
+            #затирание вспомогательного файла
+            yuio = open('currentnickname.txt', 'w')
+            yuio.close()
+            
+            
+            # Сохранение 10 лучших игроков
+            top10_r = open('top10.txt', 'r')
+            s = top10_r.readlines() # Saving the state of top10.txt file
+            top10_r.close()
+            top10_w = open('top10.txt', 'w')
+            if len(s) == 0:  # If top10.txt is empty writing a new result
+                print('1. ' + nickname + ' ' + str(score), file=top10_w)
+            else:
+                list_of_scores = []
+                for i in range(len(s)):  # Reading scores from the file to create list of scores of all 10 players
+                    score_r = s[i][len(s[i]) - 2]
+                    j = len(s[i]) - 3
+                    while s[i][j] != ' ':
+                        score_r += s[i][j]
+                        j -= 1
+                    list_of_scores.append(int(score_r[::-1]))
+                if score >= list_of_scores[0]:  # If player has achieved top 1 result number of a player "above" him is -1
+                    i_sup = -1
+                else:  # Finding the supremum for player's score in list_of_scores
+                    i_sup = 0
+                    for i in range(len(list_of_scores)):
+                        if score < list_of_scores[i]:
+                            i_sup = i
+                for i in range(len(s)):  # Deleting old positions for every player in top 10, for example "4. "
+                    s[i] = s[i][3 + i // 10:]
+                s.insert(i_sup + 1, nickname + ' ' + str(score) + '\n')  # Adding player's result to top10 massive
+                for i in range(len(s)):  # Adding new positions for every player in top 10
+                    s[i] = str(i + 1) + '. ' + s[i]
+                # Writing top 10(or less) players in the file
+                if len(s) > 10:
+                    top10_w.writelines(s[:len(s) - 1])
+                else:
+                    top10_w.writelines(s)
+            top10_w.close()
 
         while (game_over or game_win) and not game_end:
             game_end_background = pygame.Surface((800, 700))
