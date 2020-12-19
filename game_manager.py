@@ -150,16 +150,17 @@ class GameManager:
 
                 for ball in balls:
                     if ball.on_platform:
-                        ball.move_on_platform(platform, -0.25)
+                        ball.move_on_platform(platform)
                     else:
                         ball.move_freely(platform)
                     if platform.lives > 1 and ball.y > 800 + ball.radius and len(balls) == 1:
                         platform.lives -= 1
                         ball.on_platform = True
+                        ball.position_on_platform = random() - 0.5
                     elif ball.y > 800 + ball.radius and len(balls) > 1:
                         balls.remove(ball)
                     elif platform.lives == 1 and ball.y > 800 + ball.radius and len(balls) == 1:
-                        pygame.mixer.Sound("./sounds/sfx_game_over.ogg").play()
+                        playsound("./sounds/sfx_game_over.wav", False)
                         game_over = True
 
                 if game_endless and not game_over:

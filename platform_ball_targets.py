@@ -3,6 +3,7 @@ from random import *
 import numpy as np
 import pygame
 from pygame.draw import *
+from playsound import *
 
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
@@ -60,6 +61,7 @@ class Ball:
         self.v = (self.vx ** 2 + self.vy ** 2) ** 0.5
         self.radius = 9  # радиус шарика
 
+        self.position_on_platform = random() - 0.5
         self.on_platform = True
         # Внутри круга сделал квадрат поменьше, inner_square_radius - это длина половины стороны квадратика
         self.inner_square_radius = self.radius / 2 ** 0.5
@@ -85,8 +87,8 @@ class Ball:
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
 
-    def move_on_platform(self, platform, position_on_platform: float):
-        self.x = platform.x + position_on_platform * platform.width
+    def move_on_platform(self, platform):
+        self.x = platform.x + self.position_on_platform * platform.width
         self.y = platform.y - platform.height / 2 - self.radius
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
@@ -178,7 +180,7 @@ class Menu:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             for i in range(3):
                 if self.button[i].collidepoint(pygame.mouse.get_pos()):
-                    pygame.mixer.Sound("./sounds/sfx_button_clicked.ogg").play()
+                    playsound("./sounds/sfx_button_clicked.wav", False)
                     self.click[i] = True
 
     def draw(self, screen, type: str):
