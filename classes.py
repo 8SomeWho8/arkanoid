@@ -72,9 +72,11 @@ class Ball:
     def move_freely(self, platform):
         x = platform.x
         w = platform.width
-        if self.x + self.vx < 0 or self.x + self.vx > 800:
+        if self.x + self.vx < self.radius or self.x + self.vx > 800 - self.radius:
             self.vx = -self.vx
-        if self.y + self.vy < 70:
+            playsound("./sounds/sfx_wall_hitted.wav", False)
+        if self.y + self.vy < 70 + self.radius:
+            playsound("./sounds/sfx_wall_hitted.wav", False)
             self.vy = -self.vy
         if self.inner_square.colliderect(platform.physical_obj):
             # нужныйобъект.colliderect(обьект с которым проверяется столкновение)
@@ -88,7 +90,7 @@ class Ball:
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
 
     def move_on_platform(self, platform):
-        self.x = platform.x + self.position_on_platform * platform.width
+        self.x = platform.x + self.position_on_platform * (platform.width - self.radius)
         self.y = platform.y - platform.height / 2 - self.radius
         self.inner_square = pygame.Rect(self.x - self.inner_square_radius, self.y - self.inner_square_radius,
                                         2 * self.inner_square_radius, 2 * self.inner_square_radius)
@@ -113,7 +115,7 @@ def detect_collision(obj1, obj2):
     else:
         delta_y = obj2.bottom - obj1.inner_square.top
     # Отражение скоростей
-    if abs(delta_x - delta_y) < 10:
+    if abs(delta_x - delta_y) < 3:
         obj1.vx *= -1
         obj1.vy *= -1
 

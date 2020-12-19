@@ -11,6 +11,9 @@ class GameManager:
         global screen
 
     def main_loop(self, screen):
+        pygame.mixer.music.load("./sounds/menu_music.mp3")
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.5)
         clock = pygame.time.Clock()
         game_over = False
         game_win = False
@@ -83,6 +86,8 @@ class GameManager:
                     game_arcade = False
                     menu.click[2] = False
 
+        if not game_over and not game_restart and not game_win and not game_end:
+            pygame.mixer.music.pause()
         while not game_over and not game_restart and not game_win and not game_end:
             targets = Targets(level_map)
             targets.gift_bricks()
@@ -95,12 +100,14 @@ class GameManager:
                 # hit_index=главный_обьект.collidelist(обьект, с которым проверяется столкновение)
                 hit_index = ball_1.inner_square.collidelist(targets.brick_list)
                 if hit_index != -1:
+                    playsound("./sounds/sfx_brick_destroyed.wav", False)
                     for i in range(len(targets.gifted_bricks_list)):  # поиск мертвого кирпича в списке одаренных
                         if hit_index == targets.gifted_bricks_list[i]:
                             m = randint(1, 13)
                             # запускается функция появления и дальнейшей жизни бонуса на месте смерти кирпича
                             trigger_bonus(targets.brick_list[targets.gifted_bricks_list[i]].center[0],
                                           targets.brick_list[targets.gifted_bricks_list[i]].center[1], bonuses, m)
+
 
                     score += 1
                     # находим по индексу нужный кирпич и одновременно удаляем его из списка
@@ -134,6 +141,7 @@ class GameManager:
                 for bonus in bonuses:
                     if bonus.physical_obj.colliderect(platform.physical_obj):
                         trigger_antibonus(0, 0, antibonuses, bonus.boost(platform, balls))
+                        playsound("./sounds/sfx_powerup_got.wav", False)
                         bonuses.remove(bonus)
                     else:
                         bonus.move()
