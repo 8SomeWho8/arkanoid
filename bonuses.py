@@ -18,8 +18,6 @@ class Bonus:
         self.height = 32
         self.physical_obj = pygame.Rect(self.x - self.width/2, self.y - self.height/2, self.width, self.height)
 
-        self.timer = 600
-
     def move(self):
         self.y += self.vy
         self.physical_obj = pygame.Rect(self.x - self.width/2, self.y - self.height/2, self.width, self.height)
@@ -89,7 +87,6 @@ class AntiBonus: #нужны для удобной деактивации эфф
         self.physical_obj = pygame.Rect(self.x - self.width / 2, self.y - self.height / 2,
                                         self.width, self.height)
 
-        self.timer = 600
 
     def move(self):
         self.y += self.vy
@@ -150,13 +147,6 @@ def trigger_antibonus(x, y, list_of_antibonuses, p):
         list_of_antibonuses.append(SlowDownAntiBonus(x, y))
     elif p == 3:
         pass
-    
-    
-#На кадр увеличивает ралиус шара, почти равносильно взрыву
-def trigger_explosion(x, y, obj8):
-    obj8.radius *= 10
-    
-
 
 
 if __name__ == "__main__":
