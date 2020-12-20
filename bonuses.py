@@ -58,12 +58,11 @@ class SlowDownBonus(Bonus):
         Bonus.__init__(self, x, y)
         self.slow_multiplier = 1.5
 
-    def boost(self, platform, balls):
-        for ball in balls:
-            ball.v /= self.slow_multiplier
-            ball.vx /= self.slow_multiplier
-            ball.vy /= self.slow_multiplier
-            return 2
+    def boost(self, platform, ball):
+        ball.v /= self.slow_multiplier
+        ball.vx /= self.slow_multiplier
+        ball.vy /= self.slow_multiplier
+        return 2
 
 
 class LifeBonus(Bonus):
@@ -121,10 +120,9 @@ class SlowDownAntiBonus(AntiBonus):
         self.slow_multiplier = 1.5
 
     def boost(self, platform, balls):
-        for ball in balls:
-            ball.v *= self.slow_multiplier
-            ball.vx *= self.slow_multiplier
-            ball.vy *= self.slow_multiplier
+        ball.v *= self.slow_multiplier
+        ball.vx *= self.slow_multiplier
+        ball.vy *= self.slow_multiplier
 
 
 def trigger_bonus(x, y, list_of_bonuses, t):
