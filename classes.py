@@ -204,6 +204,7 @@ class Menu:
         self.button_continue = pygame.image.load("images/button_continue.png")
         self.button_restart = pygame.image.load("images/button_restart.png")
         self.button_yetuseless = pygame.image.load("images/button_yetuseless.png")
+        self.button_rating = pygame.image.load("images/button_rating.png")
 
     def action(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -229,15 +230,18 @@ class Menu:
             button_1 = self.button_continue
             button_2 = self.button_restart
             button_3 = self.button_exit
-        elif type == "end":
+        elif type == "end_endless":
+            button_1 = self.button_rating
+            button_2 = self.button_restart
+            button_3 = self.button_exit
+        elif type == "end_arcade":
             button_1 = self.button_yetuseless
             button_2 = self.button_restart
             button_3 = self.button_exit
         button_1 = pygame.transform.scale(button_1, (300, 70))
         button_2 = pygame.transform.scale(button_2, (300, 70))
         button_3 = pygame.transform.scale(button_3, (300, 70))
-        if not type == "end":
-            button_1.blit(self.frame, (0, 0))
+        button_1.blit(self.frame, (0, 0))
         button_2.blit(self.frame, (0, 0))
         button_3.blit(self.frame, (0, 0))
         screen.blit(button_1, (250, 100))

@@ -18,6 +18,8 @@ def main_loop(screen):
     game_arcade = False
     game_endless = False
     game_end = False
+    game_choose = False
+    game_rating = False
 
     # объявление главных объектов игры
     menu = Menu()
@@ -55,6 +57,7 @@ def main_loop(screen):
                 menu.action(event)
             if menu.click[0]:
                 game_arcade = True
+                game_choose = True
                 menu.click[0] = False
             elif menu.click[1]:
                 game_endless = True
@@ -64,7 +67,7 @@ def main_loop(screen):
                 game_end = True
 
     # цикл, описывающий работу меню выбора уровня в аркадном режиме
-    while game_arcade and not game_end:
+    while game_arcade and not game_end and game_choose:
         screen.blit(game_level_background, (0, 0))
         menu.draw(screen, "level")
         pygame.display.update()
@@ -76,17 +79,17 @@ def main_loop(screen):
             if menu.click[0]:
                 level_map = "./levels/level1.txt"
                 background = pygame.image.load("./images/level1_ground.png")
-                game_arcade = False
+                game_choose = False
                 menu.click[0] = False
             elif menu.click[1]:
                 level_map = "./levels/level2.txt"
                 background = pygame.image.load("./images/level2_ground.png")
-                game_arcade = False
+                game_choose = False
                 menu.click[1] = False
             elif menu.click[2]:
                 level_map = "./levels/level3.txt"
                 background = pygame.image.load("./images/level3_ground.png")
-                game_arcade = False
+                game_choose = False
                 menu.click[2] = False
 
     # главный процесс -- движение и взаимодействие всех объектов
@@ -95,7 +98,7 @@ def main_loop(screen):
     while not game_over and not game_restart and not game_win and not game_end:
         targets = Targets(level_map)
         targets.gift_bricks()
-        while not game_pause and not game_over and not game_end:
+        while not game_pause and not game_over and not game_end and not game_win:
             clock.tick(FPS)
             screen.blit(back_score, (0, 0))
             screen.blit(background, (0, 70))
@@ -209,7 +212,7 @@ def main_loop(screen):
     if game_endless and game_over:
         rating(score, screen)
 
-    # цикл, описывающий работу игроков
+    # цикл, описывающий работу конечного меню
     while (game_over or game_win) and not game_end:
         game_end_background = pygame.Surface((800, 700))
         if game_over:
@@ -218,19 +221,60 @@ def main_loop(screen):
             game_end_background = pygame.image.load("./images/game_win.png")
         game_end_background = pygame.transform.scale(game_end_background, [800, 700])
         screen.blit(game_end_background, (0, 0))
-        menu.draw(screen, "end")
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game_end = True
-            else:
-                menu.action(event)
-            if menu.click[1]:
-                game_restart = True
-                game_over = False
-                menu.click[1] = False
-            elif menu.click[2]:
-                game_end = True
+        if game_arcade:
+            menu.draw(screen, "end_arcade")
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_end = True
+                else:
+                    menu.action(event)
+                if menu.click[1]:
+                    game_restart = True
+                    game_over = False
+                    game_win = False
+                    menu.click[1] = False
+                elif menu.click[2]:
+                    game_end = True
+        if game_endless:
+            menu.draw(screen, "end_endless")
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_end = True
+                else:
+                    menu.action(event)
+                if menu.click[0]:
+                    game_rating = True
+                    menu.click[0] = False
+                elif menu.click[1]:
+                    game_restart = True
+                    game_over = False
+                    menu.click[1] = False
+                elif menu.click[2]:
+                    game_end = True
+
+        while game_rating and not game_restart and not game_end:
+            rating_background = pygame.image.load("images/ground_rating.png")
+            top5_r = open('top5.txt', 'r')
+            s = top5_r.readlines()  # Saving the state of top5.txt file
+            top5_r.close()
+            screen.blit(rating_background, (0, 0))
+            for i in range(len(s)):
+                rating_text = pygame.font.Font('Thintel.ttf', 50).render(s[i], True, BLACK)
+                screen.blit(rating_text, (150, 86 + 88 * i))
+            rating_text = pygame.font.Font('Thintel.ttf', 50).render('press space to restart', True, BLACK)
+            screen.blit(rating_text, (150, 541))
+            pygame.display.update()
+            clock.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_end = True
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        game_restart = True
+            pygame.display.update()
+
 
     # в случае рестарта запуск новой игры
     while game_restart and not game_end:
