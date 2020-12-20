@@ -103,10 +103,10 @@ class GameManager:
                                           targets.brick_list[targets.gifted_bricks_list[i]].center[1], bonuses, m)
 
                     #Проверка на взрывоопасность        
-                    for k in range(len(targets.gifted_explosive_bricks_list)):
-                        if hit_index == targets.gifted_explosive_bricks_list[k]:
-                            trigger_explosion(ball_1.x, ball_1.y, ball)
-                            print('booom') #для отладки
+                    #for k in range(len(targets.gifted_explosive_bricks_list)):
+                       # if hit_index == targets.gifted_explosive_bricks_list[k]:
+                         #   trigger_explosion(ball_1.x, ball_1.y, ball)
+                          #  print('booom') #для отладки
 
 
 
@@ -206,12 +206,12 @@ class GameManager:
 
             #Анимированное окно ввода ника
             w = 800
-            h = 800
+            h = 700
             button_width = 300
-            button_height = 100
+            button_height = 95
             font = pygame.font.Font(None, 50)
             clock = pygame.time.Clock()
-            input_box = pygame.Rect(int((w - button_width) /2) + 15, int(h / 2 - 10), int(button_width - 15), 50)
+            input_box = pygame.Rect(int((w - button_width) /2) + 15, int(h / 2 - 10), int(button_width - 15), 45)
             color_inactive = (100, 100, 100)
             color_active = (0, 0, 0)
             color = color_inactive
@@ -243,17 +243,21 @@ class GameManager:
                             else:
                                 text += event.unicode
 
-                screen.fill((0, 0, 0))
-                rect(screen, (255,218,158), (int((w - button_width) / 2), int((h - button_height) / 2), button_width, button_height))
-                name_text = font.render('Enter your name ', 1, (99, 128, 255))
-                screen.blit(name_text, (int((w - button_width) / 2) + 11, int((h - button_height) / 2) + 3))
+                surf192 = pygame.Surface((800,800))
+                surf192.fill((255, 255, 255))
+                surf192.set_alpha(3)
+                screen.blit(surf192, (0,0))
+                rect(screen, (0, 0, 0), (int((w - button_width) / 2) - 1, int((h - button_height) / 2) - 1, button_width + 2, button_height + 2))
+                rect(screen, (124, 240, 246), (int((w - button_width) / 2), int((h - button_height) / 2), button_width, button_height))
+                name_text = font.render('Enter your name ', 1, (20, 20, 20))
+                screen.blit(name_text, (int((w - button_width) / 2) + 12, int((h - button_height) / 2) + 3))
                 txt_surface = font.render(text, True, color)
                 width = button_width - 30
                 input_box.w = width
                 screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
                 pygame.draw.rect(screen, color, input_box, 2)
                 pygame.display.flip()
-                clock.tick(30)
+                
 
             #Передача ника во вспомогательный файл с рейтингом
             nickbase = open('currentnickname.txt', 'r')

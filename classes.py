@@ -147,11 +147,12 @@ class Targets:
         for i in range(len(self.brick_list)):
             rect(screen, self.color_list[i], self.brick_list[i])
             screen.blit(surf1, self.brick_list[i])
+            
         #FIXME     
-        surf2 = pygame.image.load("./images/explosivebricks.png")
-        surf2 = pygame.transform.scale(surf2, (self.width, self.height))
-        for k in range(len(self.gifted_explosive_bricks_list)):
-            screen.blit(surf2, self.brick_list[i])
+        #surf2 = pygame.image.load("./images/explosivebricks.png")
+        #surf2 = pygame.transform.scale(surf2, (self.width, self.height))
+        #for k in range(len(self.gifted_explosive_bricks_list)):
+          #  screen.blit(surf2, self.brick_list[i])
 
 
 
