@@ -45,6 +45,8 @@ def main_loop(screen):
     while not game_arcade and not game_endless and not game_end:
         screen.blit(game_start_background, (0, 0))
         menu.draw(screen, "start")
+        name_text = pygame.font.Font('Thintel.ttf', 70).render('B R I C K  S T A R S', True, BLACK)
+        screen.blit(name_text, (250, 30))
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
